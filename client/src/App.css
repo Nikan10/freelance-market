@@ -1,0 +1,63 @@
+.App {
+  background-color: #fdfdfd;
+}
+
+.container {
+  padding: 5rem 0;
+}
+
+.header {
+  background-color: var(--primary-color-dark);
+  height: 4rem;
+  width: 100%;
+  position: fixed;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  z-index: 90;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+.left .logo img {
+  margin-left: 2rem;
+  height: 2rem;
+}
+
+
+.navbar {
+  
+}
+
+.navbar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.navbar li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.navbar li:last-child {
+  margin-right: 0;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  color: #e0e0e0;
+  text-decoration: none;
+}
+
+.main {
+  width: 100%;
+}
+

@@ -1,0 +1,112 @@
+
+.navigationPage {
+  width: 100%;
+}
+
+.hero {
+  color: #fff;
+  padding: 100px 2rem;
+  height: 40rem;
+  text-align: left;
+  background-color: var(--primary-color-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 18px;
+}
+
+.popularCategories {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero-image img {
+  width: 26rem;
+}
+
+.search-box {
+  display: grid;
+  grid-template-columns: 28rem 3rem;
+  align-items: center;
+  margin-bottom: 3rem;
+
+}
+
+.search-input {
+  color: var(--dark-color);
+  border-radius: var(--button-radius) 0 0 var(--button-radius);
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.search-button {
+  color: #fff;
+  border-radius: 0 var(--button-radius) var(--button-radius) 0;
+  
+}
+.search-button .SearchOutlined {
+  font-size: 1.2rem;
+}
+
+
+.btn {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #333;
+}
+
+.slider {
+  
+}
+
+.category {
+  width: 100%;
+}
+
+
+
+.intro {
+  max-width: 24rem;
+
+}
+
+.introImage {
+  width: 32rem;
+  height: 20rem;
+  overflow: hidden;
+}
+
+.introImage img {
+  width: 100%;
+}
+
+.profileImage {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.profileImage img {
+  height: 100%;
+}

@@ -1,0 +1,74 @@
+
+.slider {
+  margin: auto 0;
+}
+
+.sliderContainer {
+  width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .container .slideIcon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.493);
+    background-color: #fff;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.329);
+    cursor: pointer;
+  }
+
+  .container .slideIcon:hover {
+    color: rgb(0, 0, 0);
+  }
+
+  .container .left {
+    left: 1.8rem;
+  }
+  .container .right {
+    right: 1.8rem;
+  }
+
+  .slide {
+    width: 70rem;
+    overflow-x: hidden;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+  }
+  .slide .image {
+    width: 14rem;
+    height: 18rem;
+    /* background-image: url('../assets/FB_IMG_15938810100261577.jpg'); */
+    /* background-position: center;
+    background-size: cover; */
+    display: inline-block;
+    border-radius: 8px;
+    background-color: rgb(137, 43, 226);
+    cursor: pointer;
+    overflow: hidden;
+    margin: 4px;
+    
+  }
+  .slide .image:hover img {
+    transition-timing-function: ease-in-out;
+    transition: all 300ms;
+  }
+  .slide .image:hover img {
+    width: 104%;
+  }
+
+  .slide .image img {
+    width: 100%;
+    
+  }
+
+  .slider .slideIcon {
+    
+  }
+  
