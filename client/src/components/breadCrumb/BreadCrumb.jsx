@@ -4,7 +4,7 @@ import { HomeOutlined } from '@mui/icons-material'
 
 const BreadCrumb = () => {
   return (
-    <Container>
+    <Container maxWidth="xl">
         <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
           <IconButton size='small'>
             <HomeOutlined sx={{color: "gray", fontSize: "1.2rem"}} />

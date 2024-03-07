@@ -24,10 +24,7 @@ app.use('/', authRouter);
 const PORT = process.env.PORT || 8200;
 const DATABASE_LOCAL = process.env.DATABASE_LOCAL;
 
-mongoose.connect(DATABASE_LOCAL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
+mongoose.connect(DATABASE_LOCAL).then(() => {
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     })

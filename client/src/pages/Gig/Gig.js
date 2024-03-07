@@ -12,10 +12,10 @@ const Gig = () => {
         <br/>
         <BreadCrumb />
         <br/>
-        <Container maxWidth="lg">
-            <Grid lg="12" maxWidth="xl" container>
-                <Grid lg="9" item>
-                    <Box>
+        <Container maxWidth="xl">
+            <Grid lg="12" maxWidth="xl" columnSpacing={4} container>
+                <Grid lg="9" spacing={6} item>
+                    <Box sx={{backgroundColor: "blue"}}>
                         <Typography variant='h6' fontWeight={600}>
                             I will design modern logo for your brand
                         </Typography>
@@ -37,9 +37,11 @@ const Gig = () => {
                     </Box>
                 </Grid>
                 <Grid lg="3" item>
-                    <Container>
-
-                    </Container>
+                    <Box sx={{backgroundColor: "green"}}>
+                        <Box sx={{border: "1px solid gray", width: "100%", borderRadius: "12px"}}>
+                            <Typography>New</Typography>
+                        </Box>
+                    </Box>
                 </Grid>
             </Grid>
         </Container>

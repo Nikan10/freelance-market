@@ -115,16 +115,6 @@ function NavigationPage() {
           </ImageList>
         </Box>
       </Container>
-
-      <Card>
-                  <CardMedia component="img" height="180"  image={stormseeker} alt="Image title" />
-                  <CardContent>
-                    <Typography gutterBottom variant='h6'>Heading</Typography>
-                    <Typography>
-                      This is media card
-                    </Typography>
-                  </CardContent>
-                </Card>
       
       <Container maxWidth="lg" sx={{backgroundColor: "secondary.dark", height: "20rem", borderRadius: "6px", display: "flex", flexDirection: "column", justifyContent: "center", gap: "2rem"}}>
         <Typography variant='h4' fontWeight={600} color="#fff">Suddenly it is all so doable.</Typography>
