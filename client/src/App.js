@@ -22,17 +22,21 @@ import Footer from './components/footer/Footer'
 import { AppBar, CssBaseline, IconButton, Toolbar, Typography, Button, InputBase, Badge } from '@mui/material';
 
 import theme from './theme/theme'
+import Sidebar from './components/sidebar/Sidebar';
 
 function App() {
   const [showSignup, setShowSignup] = useState(false);
   const [showSignin, setShowSignin] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   return (
     <ThemeProvider theme={theme}>
-      {showSignup ? <Signup setShowSignup={setShowSignup} /> : null}
-      {showSignin ? <Signin setShowSignin={setShowSignin} /> : null}
+      
       <Router>
         <CssBaseline />
+        {showSignup ? <Signup setShowSignup={setShowSignup} showSignup={showSignup} /> : null}
+        {showSignin ? <Signin setShowSignin={setShowSignin} /> : null}
+        {showSidebar ? <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar} /> : null}
 
         <div className="App">
           {/* <header className="header">
@@ -52,7 +56,7 @@ function App() {
             </nav>
           </header> */}
 
-          <Header setShowSignin={setShowSignin} setShowSignup={setShowSignup} />
+          <Header setShowSignin={setShowSignin} setShowSignup={setShowSignup} setShowSidebar={setShowSidebar} />
           
           <main className="main">
             <Routes>

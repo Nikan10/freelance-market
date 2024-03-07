@@ -3,12 +3,13 @@ import { AppBar, Box, IconButton, Stack, Toolbar, Button, makeStyles } from '@mu
 import maherBrand from '../../assets/images/brandings/maher new2.png'
 
 const Header = (props) => {
-  const {setShowSignin, setShowSignup} = props
+  const {setShowSignin, setShowSignup, setShowSidebar} = props
+
   return (
     <AppBar sx={{boxShadow: "none", borderBottom: "1px solid lightgray", zIndex: "90"}}>
         <Toolbar sx={{backgroundColor: "white"}}>
             <Stack sx={{flexGrow: 1, alignItems: "center", height: "100%"}} spacing={2} direction="row">
-              <IconButton>
+              <IconButton onClick={() => setShowSidebar(true)}>
                   <MenuOutlined />
               </IconButton>
               <img src={maherBrand} height="30" alt=''></img>
