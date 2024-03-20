@@ -1,20 +1,42 @@
 import React from 'react'
+import Carousel from 'react-multi-carousel'
+import 'react-multi-carousel/lib/styles.css'
 
 import { AppBar, CssBaseline, Stack, Chip, Link, IconButton, Toolbar, Typography, TextField, Container, Button, Rating, InputBase, Badge, Box, Grid, Card, CardContent, CardMedia, Input, FormControlLabel, Switch, Autocomplete, Breadcrumbs, Divider, Paper, Avatar } from '@mui/material';
-import { HomeOutlined, Star, StarBorderOutlined, StarRateRounded } from "@mui/icons-material";
+import { ArrowBack, HomeOutlined, Star, StarBorderOutlined, StarRateRounded } from "@mui/icons-material";
 
 import jason from '../../assets/images/categories/jason-blackeye-XbjM0as0nao-unsplash.jpg'
 import stormseeker from '../../assets/images/categories/stormseeker-rX12B5uX7QM-unsplash.jpg'
-import Catigories from '../../components/categories/Categories';
+
+import Categories from '../../components/categories/Categories';
 import BreadCrumb from '../../components/breadCrumb/BreadCrumb';
 
 const cards = [1,2,3,4,5,6,7,8,9,10,11,12];
-const cards2 = [1,2,3,4];
+const cards2 = [1,2,3,4,5,6,8];
 
 const home = () => {
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 6
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 4
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 3
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 2
+    }
+  }
+
   return (
     <div className='home'>
-      <Catigories />
+      <Categories />
       <br/>
       <BreadCrumb />
       <br/>
@@ -57,12 +79,12 @@ const home = () => {
       </Container>
       <br/>
       <Container maxWidth="xl">
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4} lg={3} xl={2.4}>
-              <Card>
-                <CardMedia component="img" height="160" image={stormseeker} sx={{borderRadius: "3px"}} alt="Image title" />
-                <CardContent>
+            <Grid item key={card} xxs={12} xs={6} sm={4} md={3} lg={2.4} xl={2}>
+              <Card sx={{boxShadow: "none"}}>
+                <CardMedia component="img" height="160" image={stormseeker} sx={{borderRadius: "6px"}} alt="Image title" />
+                <CardContent sx={{padding: 0, paddingTop: "1rem"}}>
                   <Box sx={{marginBottom: "0.8rem", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
                     <Stack direction='row' alignItems='center' spacing={1}>
                       <Avatar sx={{width: "2rem", height: "2rem"}} src={jason} />
@@ -83,15 +105,41 @@ const home = () => {
         </Grid>
       </Container>
       <br/>
+      <Container maxWidth="xl" sx={{backgroundColor: "#eee", padding: "4rem 0"}}>
+        <Typography variant='h6' fontWeight={600}>Most popular gigs in <Link>Logo Design</Link></Typography>
+        <br/>
+        <Carousel responsive={responsive}>
+        {cards.map((card) => (
+              <Card sx={{boxShadow: "none", margin: "0 0.6rem", backgroundColor: "transparent"}}>
+                <CardMedia component="img" height="160" image={stormseeker} sx={{borderRadius: "6px"}} alt="Image title" />
+                <CardContent sx={{padding: 0, paddingTop: "1rem"}}>
+                  <Box sx={{marginBottom: "0.8rem", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
+                    <Stack direction='row' alignItems='center' spacing={1}>
+                      <Avatar sx={{width: "2rem", height: "2rem"}} src={jason} />
+                      <Typography variant='body2' fontWeight={600}>Sulaiman</Typography>
+                    </Stack>
+                    <Typography variant='body2' fontSize={12} fontWeight={600} sx={{height: "auto", backgroundColor: "cyan", borderRadius: "4px", padding: "0.2rem"}}>Trusted</Typography>
+                  </Box>
+                  <Typography variant='body2' fontWeight={600} color="#464646" gutterBottom>I will design modern minimalist luxury business logo design</Typography>
+                  <Stack margin="0.4rem 0" spacing={0.6} alignItems='center' direction='row'>
+                    <StarRateRounded /><Typography variant='body2' fontWeight={600}>4.9</Typography>
+                  </Stack>
+                  <Typography variant='body2' fontWeight={800}>From $80</Typography>
+                </CardContent>
+              </Card>
+          ))}
+        </Carousel>
+      </Container>
+      <br/>
       <Container maxWidth="xl">
         <Divider />
       </Container>
       <br/>
-      <Container maxWidth="lg">
+      <Container maxWidth="md">
         <Stack sx={{display: "flex", alignItems: "center"}}>
           <Typography variant='h5' fontWeight={600} gutterBottom>Explore More Logo Design Services</Typography>
           
-          <Box>
+          <Box textAlign="center">
             <Chip sx={{margin: "0.4rem", color: "gray"}} label="Logo animation" />
             <Chip sx={{margin: "0.4rem", color: "gray"}} label="Modern logo design" />
             <Chip sx={{margin: "0.4rem", color: "gray"}} label="Vintage logo design" />
@@ -115,7 +163,7 @@ const home = () => {
           <Typography variant='h5' fontWeight={600} gutterBottom>Logo Design FAQs</Typography>
         </Stack>
         <br/>
-        <Grid columnSpacing={8} md={{columnSpacing: "4"}} rowSpacing={4} container>
+        <Grid columnSpacing={8} md={{columnSpacing: "4"}}rowSpacing={4} container>
           <Grid lg={6} sm={12} item>
             <Typography fontWeight={600}>What is logo dsign?</Typography>
             <Typography variant='body2' color="gray">ajhsskahb xs sajb shb xhsbxb xhjcbisuwo jsih ush hsu shaiusgh ws hgzuisaijsb xsugxh sjhcvs hxguysai sj sgss hsyhygxc</Typography>
