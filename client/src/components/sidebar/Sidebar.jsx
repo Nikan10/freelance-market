@@ -4,11 +4,11 @@ import { AppBar, Stack, Drawer, Box, IconButton, Toolbar, Typography, Button, In
 
 import stormseeker from '../../assets/images/categories/stormseeker-rX12B5uX7QM-unsplash.jpg'
 
-
 const Sidebar = (props) => {
+
   const user = useSelector(state => state.user);
   const { showSidebar, setShowSidebar } = props
-  console.log(user)
+
   return (
     <Drawer anchor='left' open={showSidebar} onClose={() => setShowSidebar(false)}>
       <Box width="18rem" padding={2}>

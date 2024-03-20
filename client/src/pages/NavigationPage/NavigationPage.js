@@ -3,16 +3,38 @@ import './navigationPage.css';
 import heroImage from '../../assets/images/brandings/maher-new7.png'
 import Slider2 from '../../components/slider/Slider'
 
+import Carousel from 'react-multi-carousel'
+import 'react-multi-carousel/lib/styles.css'
+
 import stormseeker from '../../assets/images/categories/stormseeker-rX12B5uX7QM-unsplash.jpg'
 import dawid from '../../assets/images/categories/dawid-zawila--G3rw6Y02D0-unsplash.jpg'
 
-import {SearchOutlined, AcUnitOutlined} from '@mui/icons-material'
-import { Card, CardActions, CardContent, ImageList, ImageListItem, Typography, Button, CardMedia, Grid, Container, Box } from '@mui/material'
+import {SearchOutlined, AcUnitOutlined, StarRateRounded} from '@mui/icons-material'
+import { Card, CardActions, CardContent, ImageList, ImageListItem, Typography, Button, CardMedia, Grid, Container, Box, Stack, Avatar } from '@mui/material'
 
 const cards = [1, 2, 3, 4, 5, 6];
 
 
 function NavigationPage() {
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 6
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 5
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 3
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  }
+
   return (
     <div className="NavigationPage">
       <section className="hero">
@@ -34,12 +56,23 @@ function NavigationPage() {
           <img src={heroImage} alt='hero' ></img>
         </div>
       </section>
-      <Container className='container'>
-        <Slider2 className="slider" />
+      <br/>
+      <Container className='container' maxWidth="xl">
+        <Typography variant='h5' fontWeight={600} marginBottom={2}>Popular services</Typography>
+        <Carousel responsive={responsive}>
+          {cards.map(() => (
+            <div className='category' style={{height: "18rem", overflow: "hidden", borderRadius: "4px", margin: "0.4rem"}}>
+              <div style={{width: "100%", padding: "1rem", color: "white", background: "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0))"}}>
+                <Typography variant='body2' >Build your brand</Typography>
+                <Typography variant='h6' fontWeight={600}>Logo Design</Typography>
+              </div>
+            </div>
+          ))}
+        </Carousel>
       </Container>
       
       <section style={{backgroundColor: "#95ffd3"}}>
-        <Container className='container' sx={{display: "flex", alignItems: "center", justifyContent: "space-between"}}  maxWidth="lg">
+        <Container className='container' sx={{display: "flex", alignItems: "center", justifyContent: "space-between"}}  maxWidth="xl">
           <div className='intro'>
             <Typography variant='h5' fontWeight={700}>The best part? Everything</Typography>
 
@@ -59,7 +92,7 @@ function NavigationPage() {
       </section>
 
       <section>
-        <Container className='container' maxWidth="lg">
+        <Container className='container' maxWidth="xl">
           <Typography variant='h5' fontWeight={700}>You need it, we have got it</Typography>
           <br/> <br/>
           <Grid container spacing={4}>
@@ -92,6 +125,27 @@ function NavigationPage() {
         </div>
       </Container>
 
+      <Container maxWidth="xl" sx={{ padding: "4rem 0"}}>
+        <Typography variant='h5' fontWeight={600}>Inspiring work made on Maher</Typography>
+        <br/>
+        <Carousel responsive={responsive}>
+        {cards.map((card) => (
+              <Card sx={{margin: "0.2rem 0.6rem"}}>
+                <CardMedia component="img" height="180" image={stormseeker} sx={{borderRadius: "6px"}} alt="Image title" />
+                <CardContent>
+                  <Stack direction='row' alignItems='center' spacing={1}>
+                    <Avatar src={stormseeker} />
+                    <Stack>
+                      <Typography variant='body2' fontWeight={600}>Sulaiman</Typography>
+                      <Typography variant='body2' color="gray">by jamiljan</Typography>
+                    </Stack>
+                  </Stack>
+                </CardContent>
+              </Card>
+          ))}
+        </Carousel>
+      </Container>
+
       <Container className='container' sx={{display: "flex", justifyContent: "left"}} maxWidth="xl">
         <div className='introImage'>
           <img src={dawid} alt=''></img>
@@ -102,18 +156,6 @@ function NavigationPage() {
           <Typography variant='h6' fontWeight={600}>Owesome!</Typography>
           <Typography variant='h5' fontStyle="italic" color="primary.dark">"Ipsam illo autem consectetur, neque error provident eaque nulla nesciunt rem ut adipisci quod eum ducimus. Ipsam illo autem consectetur, neque error provident eaque nulla nesciunt rem ut adipisci quod eum ducimus."</Typography>
         </div>
-      </Container>
-
-      <Container maxWidth="lg" className='container'>
-        <Box sx={{width: "40rem", height: "18rem", overflowX: "scroll", overflowY: "hidden"}}>
-          <ImageList rows="1" cols="6">
-            {cards.map((card) => (
-              <ImageListItem key={card}>
-                <img src={dawid} alt=''></img>
-              </ImageListItem>
-            ))}
-          </ImageList>
-        </Box>
       </Container>
       
       <Container maxWidth="lg" sx={{backgroundColor: "secondary.dark", height: "20rem", borderRadius: "6px", display: "flex", flexDirection: "column", justifyContent: "center", gap: "2rem"}}>

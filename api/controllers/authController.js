@@ -32,13 +32,13 @@ export const signin = async (req, res) => {
         return new Error('Provide email and password');
     }
     // Check if user exist and passord is correct
-    const user = await User.findOne({ email });
-    if(!user || user.password !== password) return new Error('email or password is incorrect!');
+    const currentUser = await User.findOne({ email });
+    if(!currentUser || currentUser.password !== password) return new Error('email or password is incorrect!');
 
     const token = 's2drty3uefyvhoik3jejfvdfoxn3897r30idjhuchw89g7h';
     console.log(token)
     res.status(200).json({
-        status: "success",
+        currentUser,
         token
     })
 }

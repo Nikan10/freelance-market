@@ -17,6 +17,9 @@ const userSchema = mongoose.Schema({
         minLength: 6,
         required: true,
     },
+    photo: {
+        type: String,
+    },
     role: {
         type: String,
         default: 'user',
@@ -34,7 +37,6 @@ const userSchema = mongoose.Schema({
 {
     timestamps: true
 })
-
 
 
 const User = mongoose.model('User', userSchema);

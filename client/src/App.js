@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/material';
 
 import './App.css';
 
@@ -12,6 +13,7 @@ import Home from './pages/Home/Home';
 import About from './pages/About';
 import NavigationPage from './pages/NavigationPage/NavigationPage';
 import Gig from './pages/Gig/Gig';
+import SellerDashboard from './pages/SellerDashboard/SellerDashboard';
 import NotFound from './pages/NotFound/NotFound';
 
 import Signup from './components/signup/Signup'
@@ -21,6 +23,8 @@ import Footer from './components/footer/Footer'
 
 import { AppBar, CssBaseline, IconButton, Toolbar, Typography, Button, InputBase, Badge } from '@mui/material';
 
+import { useSelector } from 'react-redux';
+
 import theme from './theme/theme'
 import Sidebar from './components/sidebar/Sidebar';
 
@@ -28,7 +32,7 @@ function App() {
   const [showSignup, setShowSignup] = useState(false);
   const [showSignin, setShowSignin] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
-
+  
   return (
     <ThemeProvider theme={theme}>
       
@@ -39,22 +43,6 @@ function App() {
         {showSidebar ? <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar} /> : null}
 
         <div className="App">
-          {/* <header className="header">
-            <div className='left'>
-              <IconButton><MenuOutlined /></IconButton>
-              <div className="logo"><img src={maherBrand} alt='maher logo'></img></div>
-            </div>
-            <nav className="navbar">
-              <ul>
-                <li><a href="/navigation_page">Navigation</a></li>
-                <li><a href="/">Home</a></li>
-                <li><a href="/services">Services</a></li>
-                <li><a href="/become_seller">Become a Seller</a></li>
-                <li><a href="" onClick={() => setShowSignin(!showSignin)}>sign in</a></li>
-                <li><Button variant='outlined' onClick={() => setShowSignup(!showSignup)}>Join</Button></li>
-              </ul>
-            </nav>
-          </header> */}
 
           <Header setShowSignin={setShowSignin} setShowSignup={setShowSignup} setShowSidebar={setShowSidebar} />
           
@@ -64,6 +52,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/navigation_page" element={<NavigationPage />} />
               <Route path="/gig" element={<Gig />} />
+              <Route path="/seller_dashboard" element={<SellerDashboard />} />
               <Route element={<NotFound/>} />
             </Routes>
           </main>
