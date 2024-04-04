@@ -79,10 +79,10 @@ const home = () => {
       </Container>
       <br/>
       <Container maxWidth="xl">
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           {cards.map((card) => (
             <Grid item key={card} xxs={12} xs={6} sm={4} md={3} lg={2.4} xl={2}>
-              <Card sx={{boxShadow: "none"}}>
+              <Card sx={{boxShadow: "none", backgroundColor: "transparent"}}>
                 <CardMedia component="img" height="160" image={stormseeker} sx={{borderRadius: "6px"}} alt="Image title" />
                 <CardContent sx={{padding: 0, paddingTop: "1rem"}}>
                   <Box sx={{marginBottom: "0.8rem", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>

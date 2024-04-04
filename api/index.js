@@ -7,6 +7,7 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 
 import authRouter from './routes/authRouter.js'
+import gigRouter from './routes/gigRouter.js'
 
 // Configurations
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', authRouter);
+app.use('/', gigRouter);
 
 const PORT = process.env.PORT || 8200;
 const DATABASE_LOCAL = process.env.DATABASE_LOCAL;
