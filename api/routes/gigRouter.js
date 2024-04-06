@@ -1,12 +1,13 @@
 import express from 'express'
 
-import { protect, permitTo } from '../controllers/authController.js'
-import { getAllGigs } from '../controllers/gigController.js'
+import protect from '../middlewares/protect.js'
+import { createGig, deleteGig, getGig, getGigs } from '../controllers/gigController.js'
 
 const gigRouter = express.Router();
 
-gigRouter
-    .route('/gigs')
-    .get(protect, permitTo('admin'), getAllGigs);
+gigRouter.post('/create', createGig)
+gigRouter.post('/:id', protect, deleteGig)
+gigRouter.get('/gig/:id', protect, getGig)
+gigRouter.get('/', protect, getGigs)
 
 export default gigRouter;

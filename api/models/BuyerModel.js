@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import User from "../UserModel";
+import User from "./UserModel";
 
 const buyerSchema = mongoose.Schema({
     name: {
