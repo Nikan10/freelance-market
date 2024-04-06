@@ -1,53 +1,44 @@
 import mongoose from "mongoose";
 
 const JobSchema = mongoose.Schema({
-    job_id: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    job_title: {
+    title: {
         type: String,
         required: true,
     },
     description: {
-        
         type: String,
         required: true,
     },
     budget: {
-
         type: double,
-        minLength: 6,
+        min: 8,
         required: true,
     },
     status: {
         type: String,
-        default: ['open','closed','in progress'],
+        default: 'open',
+        enum: ['open','closed','in progress']
     },
-    start_date: {
+    startDate: {
         type: Date,
         required: true,
     },
-    end_date: {
+    endDate: {
         type: Date,
         required: true,
     },
-    offer_id: [{
-        
-        type: mongoose.Schema.Types.ObjectId,
+    offerId: {
+        type: [mongoose.Schema.Types.ObjectId],
         ref: 'Offer',
         required: true
-    }],
-    buyer_id: {
-        
+    },
+    buyerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Buyer',
         required: true
 
     },
-    category_id:{
-        
+    categoryId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
         required: true
@@ -58,10 +49,5 @@ const JobSchema = mongoose.Schema({
     timestamps: true
 })
 
-const Job = mongoose.model('Job', userSchema);
-const Offer = mongoose.model('Offer', offerSchema);
-const Buyer = mongoose.model('Buyer', buyerSchema);
-const Category = mongoose.model('Category', categorySchema);
-
-
- module.exports = {Job, Offer, Buyer, Category};
+const Job = mongoose.model('Job', jobSchema);
+export default Job;
