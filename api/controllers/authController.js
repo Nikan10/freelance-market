@@ -53,7 +53,7 @@ export const signin = async (req, res) => {
         return new Error('Provide email and password');
     }
     // Check if user exist and passord is correct
-    const user = await User.findOne({ email }).select('+password')
+    const user = await User.findOne({ email })
     const correct = await user.checkPassword(password, user.password)
 
     if(!user || !correct) {
