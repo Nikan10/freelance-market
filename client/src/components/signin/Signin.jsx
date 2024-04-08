@@ -1,9 +1,10 @@
 import {React, useState} from 'react'
 import './signin.css'
-import { useDispatch } from 'react-redux'
-import { loginStart, loginSuccess, loginFailure } from '../../state/userSlice'
+import request from '../../utils/request.js'
 
+import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
+import { loginStart, loginSuccess, loginFailure } from '../../state/userSlice'
 
 import stormseeker from '../../assets/images/categories/stormseeker-rX12B5uX7QM-unsplash.jpg'
 
@@ -28,16 +29,10 @@ const Signup = (props) => {
 
     let response;
     try {
-      response = await fetch('http://localhost:4400/signin', {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json'},
-        body: JSON.stringify(formData)
-      }).then(data => data.json()).then(data => (
-        response = data
-      ))
-
-      if(response) {
-        const currentUser = localStorage.getItem('currentUser')
+      response = await request.post('/signin', formData)
+      console.log(response)
+      if(response.data) {
+        const currentUser = localStorage.setItem('currentUser', response.data?.user)
         dispatch(loginSuccess(currentUser))
         setTimeout(() => {
           setShowSignin(false)

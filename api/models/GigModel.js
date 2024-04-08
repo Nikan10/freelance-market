@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+import Category from "./CategoryModel.js";
+
 const gigSchema = mongoose.Schema({
     title: {
         type: String,
@@ -12,7 +14,7 @@ const gigSchema = mongoose.Schema({
     },
     reviews: {
         type: [String],
-        ref: 'Reviews'
+        required: true
     },
     ratingsAverage: {
         type: Number,
@@ -21,7 +23,8 @@ const gigSchema = mongoose.Schema({
         default: 0 
     },
     categoryId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
         required: true,
     },
     price: {

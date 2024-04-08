@@ -6,8 +6,8 @@ import { createGig, deleteGig, getGig, getGigs } from '../controllers/gigControl
 const gigRouter = express.Router();
 
 gigRouter.post('/create', createGig)
-gigRouter.post('/:id', protect, deleteGig)
-gigRouter.get('/gig/:id', protect, getGig)
-gigRouter.get('/', protect, getGigs)
+gigRouter.post('/:id', deleteGig)
+gigRouter.get('/:id', getGig)
+gigRouter.get('/', getGigs)
 
 export default gigRouter;

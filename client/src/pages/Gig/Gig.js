@@ -69,7 +69,7 @@ const Gig = () => {
           items: 2
         }
     }
-
+    
   return (
     <div className='gig'>
         <Categories />
