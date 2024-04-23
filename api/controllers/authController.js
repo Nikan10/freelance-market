@@ -17,10 +17,7 @@ const sendResponse = (user, statusCode, res) => {
 
     res.status(statusCode).json({
         status: 'success',
-        token,
-        data: {
-            user
-        }
+        user
     })
 }
 
@@ -32,33 +29,37 @@ export const signup = async (req, res) => {
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
         role: req.body.role,
-        passwordChangedAt: req.body.passwordChangedAt
     }
 
     try{
         const newUser = await User.create(UserData)
 
-        sendResponse(user, 200, res);
+        sendResponse(newUser, 200, res);
     } catch (error) {
-        console.log("Threw Error")
-        console.log(error);
+        next(error)
     }
 }
 
-export const signin = async (req, res) => {
+export const signin = async (req, res, next) => {
     const { email, password } = req.body;
-
     // Check if email and password exists
     if(!email || !password) {
-        return new Error('Provide email and password');
+        return next(new Error('Provide email and password'))
     }
     // Check if user exist and passord is correct
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email }).select('+password')
     const correct = await user.checkPassword(password, user.password)
 
     if(!user || !correct) {
-        return console.log(new Error("email or password is incorrect!"))
+        return next(new Error("email or password is incorrect!"))
     }
 
     sendResponse(user, 200, res);
+}
+
+export const logout = (req, res, next) => {
+    res.clearCookie("token", {
+        sameSite: "none",
+        secure: true
+    }).status(200).send("You have been logged out")
 }

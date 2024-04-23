@@ -2,18 +2,7 @@ import mongoose from "mongoose";
 
 import User from "./UserModel";
 
-const buyerSchema = mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: [true, 'username already exist'],
-        maxLength: 32
-    },
-    lastname: {
-        type: String,
-        required: [true, 'please provide your email'],
-        unique: true,
-    },
+const buyerProfileSchema = mongoose.Schema({
     orders: {
         type: mongoose.Schema.Types.ObjectId,
         ref: Buyer._id,
@@ -30,6 +19,6 @@ const buyerSchema = mongoose.Schema({
     timestamps: true
 })
 
-const Buyer = mongoose.model('BuyerProfile', buyerSchema);
+const BuyerProfile = mongoose.model('BuyerProfile', buyerProfileSchema);
 
-export default Buyer;
+export default BuyerProfile;

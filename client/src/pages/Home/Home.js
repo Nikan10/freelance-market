@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import request from '../../utils/request';
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
+import { useQuery } from "@tanstack/react-query"
 
 import { AppBar, CssBaseline, Stack, Chip, Link, IconButton, Toolbar, Typography, TextField, Container, Button, Rating, InputBase, Badge, Box, Grid, Card, CardContent, CardMedia, Input, FormControlLabel, Switch, Autocomplete, Breadcrumbs, Divider, Paper, Avatar } from '@mui/material';
 import { ArrowBack, HomeOutlined, Star, StarBorderOutlined, StarRateRounded } from "@mui/icons-material";
@@ -10,11 +12,23 @@ import stormseeker from '../../assets/images/categories/stormseeker-rX12B5uX7QM-
 
 import Categories from '../../components/categories/Categories';
 import BreadCrumb from '../../components/breadCrumb/BreadCrumb';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import GigCard from '../../components/gigCard/GigCard';
+
 
 const cards = [1,2,3,4,5,6,7,8,9,10,11,12];
 const cards2 = [1,2,3,4,5,6,8];
 
-const home = () => {
+const Home = () => {
+  const [sort, setSort] = useState("price")
+  const [open, setOpen] = useState(false)
+  const maxRef = useRef('')
+  const [selectedValue, setSelectedValue] = useState('')
+
+  const { search } = useLocation()
+  console.log(search)
+
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -22,7 +36,7 @@ const home = () => {
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 4
+      items: 5
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -34,13 +48,31 @@ const home = () => {
     }
   }
 
+  // ${search}&min=${minRef.current.value}&max=${maxRef.current.value}
+  const { isPending, error, data, refetch } = useQuery({
+    queryKey: ["gigsData"],
+    queryFn: () => {
+      return (request.get(`/gigs?&max=${maxRef.current.value}`).then((res) => {
+        return res.data
+      }))
+    }
+  })
+  console.log(maxRef.current.value)
+  const handleChange = (event, value) => {
+    console.log(maxRef.current.value)
+    refetch()
+  }
+  // useEffect(() => {
+  //   refetch()
+  // }, [sort])
+  
   return (
-    <div className='home'>
+    <Container maxWidth="xl" className='home'>
       <Categories />
       <br/>
       <BreadCrumb />
       <br/>
-      <Container maxWidth="xl">
+      <Container>
         <Typography variant='h4' fontWeight={600}>Logo Design</Typography>
         <Typography>Stand out from the crowd with a logo that fits your brand personality.</Typography>
       </Container>
@@ -62,9 +94,9 @@ const home = () => {
       <br/>
       <Container maxWidth="xl" sx={{display: "flex", justifyContent: "space-between"}}>
         <Stack direction="row" spacing={1}>
-          <Autocomplete size='small'sx={{width: "9rem"}} options={['AFG', 'IRN', 'PAK']} renderInput={(params) => <TextField {...params} label='Logo options'/>} />
+          <Autocomplete size='small' sx={{width: "9rem"}} options={['AFG', 'IRN', 'PAK']} renderInput={(params) => <TextField {...params} label='Logo options'/>} />
           <Autocomplete size='small' sx={{width: "9rem"}} options={['AFG', 'IRN', 'PAK']} renderInput={(params) => <TextField {...params} label='Seller details' />} />
-          <Autocomplete size='small' sx={{width: "9rem"}} options={['AFG', 'IRN', 'PAK']} renderInput={(params) => <TextField {...params} label='Budget' />} />
+          <Autocomplete size='small' sx={{width: "9rem"}} options={['5', '10', '15', '20', '30', '50', '70', '100']} renderInput={(params) => <TextField {...params} inputRef={(input) => { maxRef.current = input; params.InputProps.ref(input)}} onChange={handleChange} label='Budget' />} />
           <Autocomplete size='small' sx={{width: "9rem"}} options={['AFG', 'IRN', 'PAK']} renderInput={(params) => <TextField {...params} label='Delivery time' />} />
         </Stack>
         
@@ -74,36 +106,21 @@ const home = () => {
       <Container maxWidth="xl">
         <Stack direction="row" sx={{alignItems: "center"}}>
           <Typography color="gray" sx={{flexGrow: 1}}>250000+ services available</Typography>
-          <Autocomplete size='small'sx={{width: "11rem", border: 0}} value='Best selling' options={['Best selling', 'Online', 'New']} renderInput={(params) => <TextField {...params} sx={{border: 0}}/>} />
+          <Autocomplete size='small' sx={{width: "11rem", border: 0}} value='Best selling' options={['Best selling', 'Online', 'New']} renderInput={(params) => <TextField {...params} sx={{border: 0}}/>} />
         </Stack>
       </Container>
       <br/>
+
       <Container maxWidth="xl">
         <Grid container spacing={3}>
-          {cards.map((card) => (
-            <Grid item key={card} xxs={12} xs={6} sm={4} md={3} lg={2.4} xl={2}>
-              <Card sx={{boxShadow: "none", backgroundColor: "transparent"}}>
-                <CardMedia component="img" height="160" image={stormseeker} sx={{borderRadius: "6px"}} alt="Image title" />
-                <CardContent sx={{padding: 0, paddingTop: "1rem"}}>
-                  <Box sx={{marginBottom: "0.8rem", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-                    <Stack direction='row' alignItems='center' spacing={1}>
-                      <Avatar sx={{width: "2rem", height: "2rem"}} src={jason} />
-                      <Typography variant='body2' fontWeight={600}>Sulaiman</Typography>
-                    </Stack>
-                    <Typography variant='body2' fontSize={12} fontWeight={600} sx={{height: "auto", backgroundColor: "cyan", borderRadius: "4px", padding: "0.2rem"}}>Trusted</Typography>
-                  </Box>
-                  <Typography variant='body2' fontWeight={600} color="#464646" gutterBottom>I will design modern minimalist luxury business logo design</Typography>
-                  <Stack margin="0.4rem 0" spacing={0.6} alignItems='center' direction='row'>
-                    <StarRateRounded /><Typography variant='body2' fontWeight={600}>4.9</Typography>
-                  </Stack>
-                  <Typography variant='body2' fontWeight={800}>From $80</Typography>
-                  
-                </CardContent>
-              </Card>
+          {isPending ? "loading" : error ? "Something went wrong" : data.map((gig, i) => (
+            <Grid item key={gig._id} xxs={12} xs={6} sm={4} md={3} lg={2.4} xl={2}>
+              <GigCard gig={gig} />
             </Grid>
           ))}
         </Grid>
       </Container>
+      
       <br/>
       <Container maxWidth="xl" sx={{backgroundColor: "#eee", padding: "4rem 0"}}>
         <Typography variant='h6' fontWeight={600}>Most popular gigs in <Link>Logo Design</Link></Typography>
@@ -183,8 +200,8 @@ const home = () => {
         </Grid>
       </Container>
       <br/> <br/>
-    </div>
+    </Container>
   )
 }
 
-export default home
+export default Home

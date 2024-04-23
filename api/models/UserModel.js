@@ -3,6 +3,14 @@ import validator from "validator"
 import bcrypt from "bcryptjs";
 
 const userSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    lastname: {
+        type: String,
+        required: true
+    },
     username: {
         type: String,
         required: true,
@@ -31,6 +39,13 @@ const userSchema = mongoose.Schema({
         },
         message: "Passwords are not the same!"
 
+    },
+    profile: {
+        type: mongoose.Schema.Types.ObjectId,
+    },
+    isSeller: {
+        type: Boolean,
+        required: true
     },
     role: {
         type: String,

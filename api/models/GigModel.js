@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 import Category from "./CategoryModel.js";
+import User from "./UserModel.js";
 
 const gigSchema = mongoose.Schema({
     title: {
@@ -10,55 +11,55 @@ const gigSchema = mongoose.Schema({
     },
     description: {
         type: String,
-        required: true,
+        // required: true,
     },
     reviews: {
         type: [String],
-        required: true
+        // required: true
     },
     ratingsAverage: {
         type: Number,
-        required: true,
+        // required: true,
         max: 5,
         default: 0 
     },
-    categoryId: {
+    category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
         required: true,
     },
     price: {
         type: Number,
-        required: true,
+        // required: true,
         min: 8
     },
     images: {
         type: [String],
         required: true,
     },
-    userId: {
-        type: String,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
     },
     shortTitle: {
         type: String,
-        required: true,
+        // required: true,
     },
     shortDescription: {
         type: String,
-        required: true,
+        // required: true,
     },
     deliveryTime: {
         type: Number,
-        required: true,
+        // required: true,
     },
     revisions: {
         type: Number,
-        required: true,
+        // required: true,
     },
     features: {
         type: [String],
-        required: false
     },
     sales: {
         type: Number,

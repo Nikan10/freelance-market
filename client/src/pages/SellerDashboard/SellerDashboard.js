@@ -43,43 +43,6 @@ const SellerDashboard = () => {
                     <Box>
                         <Box sx={{border: "1px solid #e0e0e0", borderRadius: "4px", backgroundColor: "#fff"}}>
                             <Box sx={{padding: "1.4rem"}}>
-                                <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", margin: "1rem 0"}}>
-                                    <Avatar src={dawid} sx={{width: "8rem", height: "8rem", marginBottom: "1rem"}} />
-                                    <Typography variant='h6' fontWeight={600}>Mohammad Sulaiman</Typography>
-                                    <Typography variant='body2' color="gray">{currentUser?.username}</Typography>
-                                </Box>
-                                <Button size='small' variant='outlined' sx={{textTransform: "capitalize", fontWeight: 600}} fullWidth>Preview Profile</Button>
-                                
-                                <Box margin="1rem 0">
-                                    <Divider />
-                                </Box>
-                                <Stack spacing={2}>
-                                    <Stack direction="row" sx={{justifyContent: "space-between"}}>
-                                        <Stack direction="row" spacing={1}>
-                                            <PlaceRounded /> <Typography variant='body2' color="gray">From</Typography>
-                                        </Stack>
-                                        <Typography variant='body2' fontWeight={600}>Afghanistan</Typography>
-                                    </Stack>
-                                    <Stack direction="row" sx={{justifyContent: "space-between"}}>
-                                        <Stack direction="row" spacing={1}>
-                                            <Man /> <Typography variant='body2' color="gray">Member since</Typography>
-                                        </Stack>
-                                        <Typography variant='body2' fontWeight={600}>Aug 2020</Typography>
-                                    </Stack>
-                                </Stack>
-                                
-                            </Box>
-                        </Box>
-
-                        <Box sx={{border: "1px solid #e0e0e0", padding: "1.2rem", backgroundColor: "#fff", marginTop: "1rem", borderRadius: "4px"}}>
-                            <Stack direction="row">
-                                <Typography variant='body2' color="gray" sx={{flexGrow: 1}}>Inbox</Typography>
-                                <Typography variant='body2' color="primary">View All</Typography>
-                            </Stack>
-                        </Box>
-
-                        <Box sx={{border: "1px solid #e0e0e0", borderRadius: "4px", backgroundColor: "#fff"}}>
-                            <Box sx={{padding: "1.4rem"}}>
                                 <Stack spacing={2} direction="row" alignItems="center">
                                     <Avatar src={dawid} sx={{width: "4rem", height: "4rem", marginBottom: "1rem"}} />
                                     <Typography fontWeight={600} sx={{flexGrow: 1}}>Mohammad Sulaiman</Typography>
@@ -126,26 +89,26 @@ const SellerDashboard = () => {
                                 
                             </Box>
                         </Box>
+                        <br/>
+                        <Box sx={{border: "1px solid #e0e0e0", padding: "1.2rem", backgroundColor: "#fff", borderRadius: "4px"}}>
+                            <Stack direction="row">
+                                <Typography variant='body2' color="gray" sx={{flexGrow: 1}}>Inbox</Typography>
+                                <Typography variant='body2' color="primary">View All</Typography>
+                            </Stack>
+                        </Box>
                     </Box>
                     
                 </Grid>
                 <Grid lg={8} item>
                     <Box>
                         <Box sx={{border: "1px solid #e0e0e0", borderRadius: "4px", padding: "0.6rem", backgroundColor: "#fff"}}>
-                            <Stack direction="row">
-                                <Typography variant='h6' fontWeight={600} sx={{flexGrow: 1}}>Active orders</Typography>
+                            <Stack direction="row" alignItems="center">
+                                <Typography fontWeight={600} sx={{flexGrow: 1}}>Active orders</Typography>
                                 <Autocomplete size='small'sx={{width: "9rem"}} options={['AFG', 'IRN', 'PAK']} renderInput={(params) => <TextField {...params} label='Logo options'/>} />
                             </Stack>
                         </Box>
                         <Box sx={{border: "1px solid #e0e0e0", borderRadius: "4px", padding: "0.6rem", backgroundColor: "#fff", marginTop: "1rem"}}>
                             <img src={dawid} height="48px" alt='' />
-                        </Box>
-                        <Box sx={{ height: "22rem", overflow: "hidden", backgroundColor: "lightgray", marginTop: "2rem"}}>
-                            <Carousel responsive={responsive}>
-                                {cards.map(() => (
-                                    <img src={dawid} width="100%" alt='' />
-                                ))}
-                            </Carousel>
                         </Box>
                     </Box>
                 </Grid>

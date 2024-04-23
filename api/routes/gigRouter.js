@@ -1,12 +1,15 @@
 import express from 'express'
-
+import multer from 'multer'
 import protect from '../middlewares/protect.js'
-import { createGig, deleteGig, getGig, getGigs } from '../controllers/gigController.js'
+import permitTo from '../middlewares/permitTo.js'
+
+import { createGig, deleteGig, getGig, getGigs, resizeGigImages, uploadGigImages} from '../controllers/gigController.js'
 
 const gigRouter = express.Router();
 
-gigRouter.post('/create', createGig)
-gigRouter.post('/:id', deleteGig)
+
+gigRouter.post('/create', uploadGigImages, resizeGigImages, createGig)
+gigRouter.delete('/:id', deleteGig)
 gigRouter.get('/:id', getGig)
 gigRouter.get('/', getGigs)
 
