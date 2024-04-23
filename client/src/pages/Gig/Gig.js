@@ -8,12 +8,17 @@ import 'react-multi-carousel/lib/styles.css'
 
 import jason from '../../assets/images/categories/jason-blackeye-XbjM0as0nao-unsplash.jpg'
 
-import { Circle, MarkChatRead, StarRateRounded, ThumbDownOutlined, ThumbUpOutlined } from '@mui/icons-material'
+import { Circle, MarkChatRead, Star, StarRateRounded, ThumbDownOutlined, ThumbUpOutlined } from '@mui/icons-material'
 import dawid from '../../assets/images/categories/dawid-zawila--G3rw6Y02D0-unsplash.jpg'
+import { useQuery } from '@tanstack/react-query'
+import request from '../../utils/request'
+import { useParams } from 'react-router-dom'
 
 const cards = [1, 2, 3, 4, 5, 6];
 
 const Gig = () => {
+    const { id } = useParams()
+
     const responsive = {
         superLargeDesktop: {
           breakpoint: { max: 4000, min: 3000 },
@@ -54,11 +59,11 @@ const Gig = () => {
     const responsive3 = {
         superLargeDesktop: {
           breakpoint: { max: 4000, min: 3000 },
-          items: 5
+          items: 4
         },
         desktop: {
           breakpoint: { max: 3000, min: 1024 },
-          items: 4
+          items: 3
         },
         tablet: {
           breakpoint: { max: 1024, min: 464 },
@@ -69,6 +74,18 @@ const Gig = () => {
           items: 2
         }
     }
+
+    const { isLoading, error, data } = useQuery({
+        queryKey: ["gig"],
+        queryFn: () => {
+            return (
+                request.get(`/gigs/${id}`).then((res) => {
+                    return res.data
+                })
+            )
+        }
+    })
+    console.log(data?.gig?.title)
     
   return (
     <div className='gig'>
@@ -76,21 +93,20 @@ const Gig = () => {
         <br/>
         <BreadCrumb />
         <br/>
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
             <Grid columnSpacing={6} container>
                 <Grid lg="8" item>
-                    <Box>
-                        <Typography variant='h5' fontWeight={600}>
-                            I will design modern logo for your brand
-                        </Typography>
+                    {isLoading ? "loading" : error ? "Something went wrong"
+                    : <Box>
+                        <Typography variant='h5' fontWeight={600}>{data?.gig?.title}</Typography>
                         <br/>
                         <Stack direction="row" spacing={2}>
-                            <Avatar src={jason} />
+                            <Avatar sx={{width: "3rem", height: "3rem"}} src={jason} />
                             <Stack>
-                                <Typography fontWeight={600}>Sulaiman19</Typography>
-                                <Stack direction="row" alignItems="center">
-                                    <StarRateRounded />
-                                    <Typography variant='body2' fontWeight={600}>4.9</Typography>
+                                <Typography fontWeight={600}>{data?.gig?.user?.username}</Typography>
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    <Star fontSize="3rem" />
+                                    <Typography variant='body2' fontWeight={600}>{data?.gig?.ratingsAverage}</Typography>
                                 </Stack>
                             </Stack>
                             <Stack>
@@ -183,8 +199,8 @@ const Gig = () => {
                                 <Avatar sx={{width: "4.5rem", height: "4.5rem"}} src={jason} />
                                 <Stack>
                                     <Stack direction="row" spacing={12}>
-                                        <Typography variant='body2' fontWeight={600}>Sulaiman19</Typography>
-                                        <Typography variant='body2' color="primary" alignItems="center" sx={{padding: "4px", borderRadius: "12px"}} borderColor="primary">Online <Circle fontSize="2rem" /> </Typography>
+                                        <Typography variant='body2' fontWeight={600}>{data?.gig?.user?.username}</Typography>
+                                        <Typography variant='body2' color="primary" alignItems="center" sx={{padding: "4px", borderRadius: "12px"}} borderColor="primary">Online <Circle fontSize="2rem" /></Typography>
                                     </Stack>
                                     <Typography variant='body2' color="gray">
                                         Web and Logo Designer
@@ -282,7 +298,7 @@ const Gig = () => {
                             <Carousel responsive={responsive3}>
                                 {cards.map(() => (
                                     <Card sx={{margin: "0.1rem 0.2rem"}}>
-                                        <CardMedia component="img" height="130" image={dawid} sx={{borderRadius: "3px"}} alt="Image title" />
+                                        <CardMedia component="img" height="140" image={dawid} sx={{borderRadius: "3px"}} alt="Image title" />
                                         <CardContent>
                                         <Box sx={{marginBottom: "0.8rem", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
                                             <Stack direction='row' alignItems='center' spacing={1}>
@@ -291,12 +307,14 @@ const Gig = () => {
                                             </Stack>
                                             <Typography variant='body2' fontSize={12} fontWeight={600} sx={{height: "auto", backgroundColor: "cyan", borderRadius: "4px", padding: "0.2rem"}}>Trusted</Typography>
                                         </Box>
-                                        <Typography variant='body2' fontWeight={600} color="#464646" gutterBottom>I will design modern minimalist luxury business logo design</Typography>
-                                        <Stack margin="0.4rem 0" spacing={0.6} alignItems='center' direction='row'>
-                                            <StarRateRounded /><Typography variant='body2' fontWeight={600}>4.9</Typography>
+                                        <Typography variant='caption' fontWeight={600} color="#464646" gutterBottom>I will design modern minimalist luxury business logo design</Typography>
+                                        <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                            <Stack margin="0.4rem 0" spacing={0.6} alignItems='center' direction='row'>
+                                                <StarRateRounded /><Typography variant='body2' fontWeight={600}>4.3</Typography>
+                                            </Stack>
+                                            <Typography variant='body1' fontWeight={600}>Price $20</Typography>
                                         </Stack>
-                                        <Typography variant='body2' fontWeight={800}>From $80</Typography>
-                                        
+
                                         </CardContent>
                                     </Card>
                                 ))}
@@ -344,6 +362,7 @@ const Gig = () => {
                         </Box>
                         <br />
                     </Box>
+                    }
                 </Grid>
 
                 <Grid lg="4" item>
@@ -404,10 +423,10 @@ const Gig = () => {
         <Container maxWidth="xl" sx={{backgroundColor: "#eee", padding: "3rem 0"}}>
             <Typography color="gray">More services by <Link href='' color="#000" fontWeight={600}>Sulaiman19</Link></Typography>
             <br/>
-            <Carousel responsive={responsive3}>
+            <Carousel responsive={responsive2}>
             {cards.map(() => (
                 <Card sx={{margin: "0.2rem 1rem"}}>
-                    <CardMedia component="img" height="160" image={jason} sx={{borderRadius: "3px"}} alt="Image title" />
+                    <CardMedia component="img" height="140" image={jason} sx={{borderRadius: "3px"}} alt="Image title" />
                     <CardContent>
                     <Box sx={{marginBottom: "0.8rem", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
                         <Stack direction='row' alignItems='center' spacing={1}>
@@ -416,17 +435,18 @@ const Gig = () => {
                         </Stack>
                         <Typography variant='body2' fontSize={12} fontWeight={600} sx={{height: "auto", backgroundColor: "cyan", borderRadius: "4px", padding: "0.2rem"}}>Trusted</Typography>
                     </Box>
-                    <Typography variant='body2' fontWeight={600} color="#464646" gutterBottom>I will design modern minimalist luxury business logo design</Typography>
-                    <Stack margin="0.4rem 0" spacing={0.6} alignItems='center' direction='row'>
-                        <StarRateRounded /><Typography variant='body2' fontWeight={600}>4.9</Typography>
+                    <Typography variant='caption' fontWeight={600} color="#464646" gutterBottom>I will design modern minimalist luxury business logo design</Typography>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                        <Stack margin="0.4rem 0" spacing={0.6} alignItems='center' direction='row'>
+                            <StarRateRounded /><Typography variant='body2' fontWeight={600}>4.3</Typography>
+                        </Stack>
+                        <Typography variant='body1' fontWeight={600}>Price $20</Typography>
                     </Stack>
-                    <Typography variant='body2' fontWeight={800}>From $80</Typography>
                     </CardContent>
                 </Card>
             ))}
             </Carousel>
         </Container>
-
     </div>
   )
 }

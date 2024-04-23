@@ -1,9 +1,9 @@
 import {React, useState} from 'react'
 import './signin.css'
 import request from '../../utils/request.js'
+import { useNavigate } from 'react-router-dom'
 
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { loginStart, loginSuccess, loginFailure } from '../../state/userSlice'
 
 import stormseeker from '../../assets/images/categories/stormseeker-rX12B5uX7QM-unsplash.jpg'
@@ -11,12 +11,11 @@ import stormseeker from '../../assets/images/categories/stormseeker-rX12B5uX7QM-
 import { TextField, Dialog, Typography, Card, CardMedia, CardContent, IconButton, Button } from '@mui/material'
 import { ArrowBack } from "@mui/icons-material";
 
-const Signup = (props) => {
-
-  const user = useSelector( state => state.user.currentUser)
+const Signin = (props) => {
   const { setShowSignin } = props;
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -27,19 +26,21 @@ const Signup = (props) => {
 
     dispatch(loginStart());
 
-    let response;
     try {
-      response = await request.post('/signin', formData)
-      console.log(response)
-      if(response.data) {
-        const currentUser = localStorage.setItem('currentUser', response.data?.user)
+      const response = await request.post('/signin', formData)
+
+      if(response) {
+        let currentUser = response.data.user
+        localStorage.setItem('currentUser', JSON.stringify(currentUser))
         dispatch(loginSuccess(currentUser))
         setTimeout(() => {
           setShowSignin(false)
-        }, 2000);
+        }, 1000);
+        navigate('/')
       }
     } catch(error) {
       dispatch(loginFailure(error.message));
+      console.log(error.message)
     }
   }
 
@@ -64,4 +65,4 @@ const Signup = (props) => {
   )
 }
 
-export default Signup
+export default Signin

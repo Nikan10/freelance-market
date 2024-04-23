@@ -1,14 +1,24 @@
 import {React, useState} from 'react'
 import './signup.css'
+import request from '../../utils/request.js'
+import { useNavigate } from 'react-router-dom'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { loginStart, loginSuccess, loginFailure } from '../../state/userSlice'
 
 import stormseeker from '../../assets/images/categories/stormseeker-rX12B5uX7QM-unsplash.jpg'
 
 import { Container, Typography, Card, CardMedia, CardContent, IconButton, Button, Box, TextField, Dialog, DialogContent } from '@mui/material'
 import { ArrowBack } from "@mui/icons-material";
 
+
 const Signup = (props) => {
   const { setShowSignup, showSignup } = props;
   const [formData, setFormData] = useState({});
+
+  const navigate = useNavigate()
+  
+  const dispatch = useDispatch()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -17,13 +27,22 @@ const Signup = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch('http://localhost:4400/signup', {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json'},
-      body: JSON.stringify(formData)
-    })
-    const data = response.json();
-    console.log(data)
+    dispatch(loginStart());
+
+    try{
+      const response = await request.post('/signup', formData)
+      if(response.data) {
+        const currentUser = localStorage.setItem('currentUser', response.data?.user)
+        dispatch(loginSuccess(currentUser))
+        setTimeout(() => {
+          setShowSignup(false)
+        }, 2000);
+        navigate('/')
+      }
+    } catch(error) {
+      console.log(error.message)
+      dispatch(loginFailure(error.message));
+    }
   }
   
   return (
@@ -39,7 +58,7 @@ const Signup = (props) => {
               <TextField variant='outlined' label="Email" size="small" fullWidth name='email' sx={{marginBottom: "1.2rem"}} onChange={handleChange} />
               <TextField variant='outlined' label="Username" size="small" fullWidth name='username' sx={{marginBottom: "1.2rem"}} onChange={handleChange} /> 
               <TextField variant='outlined' label="Password" size="small" fullWidth name='password' sx={{marginBottom: "1.2rem"}} onChange={handleChange} /> 
-              <TextField variant='outlined' label="Cofirm password" size="small" fullWidth name='confirmPassword' sx={{marginBottom: "1.2rem"}} onChange={handleChange} /> 
+              <TextField variant='outlined' label="Cofirm password" size="small" fullWidth name='passwordConfirm' sx={{marginBottom: "1.2rem"}} onChange={handleChange} /> 
               <Button variant='contained' fullWidth type='submit'>Continue</Button>
             </form>
           </CardContent>

@@ -4,10 +4,10 @@ import { AppBar, CssBaseline, IconButton, Toolbar, Typography, Button, InputBase
 
 const Footer = () => {
   return (
-    <AppBar position="static" sx={{ boxShadow: "none", backgroundColor: '#1d1d1d', color: 'white', marginBottom: 0}}>
+    <AppBar position="static" sx={{marginTop: "4rem", boxShadow: "none", backgroundColor: '#d3d3d3', color: '#424242', marginBottom: 0}}>
         <Toolbar>
             <Typography variant='body1'>
-                &copy; {new Date().getFullYear()} My App. All rights reserved.
+                &copy; {new Date().getFullYear()} Maher.com All rights reserved.
             </Typography>
         </Toolbar>
     </AppBar>

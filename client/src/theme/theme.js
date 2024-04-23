@@ -5,13 +5,18 @@ const theme = createTheme({
       // mode: 'dark',
       primary: {
         light: '#9cffe4',
-        main: '#06D6A0',
+        main: '#01ca95',
         dark: "#008b66"
       },
       secondary: {
         light: '#ffb7a9',
         main: '#ff7961',
         dark: '#b1341e'
+      },
+      black: {
+        light: '#6d6d6d',
+        main: '#505050',
+        dark: '#181818'
       }
     },
     breakpoints: {
