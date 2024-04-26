@@ -5,6 +5,12 @@ const categorySchema = mongoose.Schema({
         type: String,
         required: true,
         maxLength: 32
+    },
+    subCategory: {
+        type: [Object],
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: "Category",
+        required: true
     }
 },
 {

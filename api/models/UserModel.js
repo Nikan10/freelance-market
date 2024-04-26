@@ -11,12 +11,6 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    username: {
-        type: String,
-        required: true,
-        unique: [true, 'username already exist'],
-        maxLength: 32
-    },
     email: {
         type: String,
         required: [true, 'please provide your email'],
@@ -38,14 +32,18 @@ const userSchema = mongoose.Schema({
             }
         },
         message: "Passwords are not the same!"
-
     },
     profile: {
         type: mongoose.Schema.Types.ObjectId,
     },
+    country: {
+        type: String,
+        required: true
+    },
     isSeller: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     },
     role: {
         type: String,

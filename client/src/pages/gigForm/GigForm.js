@@ -19,24 +19,26 @@ const GigForm = () => {
     const [formData, setFormData] = useState({})
 
     const handleNext = (data) => {
-        setFormData(formData)
         setFormData({ ...formData, ...data})
         setStep(step + 1)
     }
     const handlePrev = () => {
         setStep(step - 1)
     }
+    console.log(formData)
 
-    const handleSubmit = async () => {
-      const dataCollection = new FormData()
-      formData.map((data, i) => (
-        dataCollection.append(`${data.key}`, data)
-      ))
-      await request.post('/gigs/create', dataCollection, {
-        headers: {
-          "Content-Type": 'multipart/form-data'
-        }
-      })
+    const handleSubmit = async (e) => {
+      e.preventDefault()
+
+      // const dataCollection = new FormData()
+      // dataCollection.append(formData)
+
+      await request.post('/gigs/create', formData)
+      // {
+      //   headers: {
+      //     "Content-Type": 'multipart/form-data'
+      //   }
+      // }
     }
   return (
     <Container maxWidth="lg" sx={{marginTop: "8rem"}}>
@@ -67,7 +69,7 @@ const GigForm = () => {
           { step === 2 && <Pricing onNext={handleNext} /> }
           { step === 3 && <Gallery onNext={handleNext} /> }
           { step === 4 && <Description onNext={handleNext} /> }
-          { step === 5 && <Publish onNext={handleNext} /> }
+          { step === 5 && <Publish formData={formData} setFormData={setFormData} /> }
           <br/><br/>
           { step === 5 && <Button variant='contained' sx={{textTransform: 'capitalize'}} type='submit'>Submit</Button> }
         </form>

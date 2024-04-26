@@ -169,7 +169,7 @@ const Header = (props) => {
                 <Button sx={{textTransform: "capitalize", color: "gray"}} href="/navigation_page">Navigation</Button>
                 <Button sx={{textTransform: "capitalize", color: "gray"}} href="/terms_of_services">Term of Services</Button>
                 <Button sx={{textTransform: "capitalize", color: "gray"}} onClick={setShowSignin}>Sign in</Button>
-                <Button sx={{textTransform: "capitalize"}} variant='outlined' onClick={setShowSignup}>Join</Button>
+                <Button sx={{textTransform: "capitalize"}} variant='outlined' href='/join'>Join</Button>
               </Stack>
             }
             

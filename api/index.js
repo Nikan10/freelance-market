@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser'
 import authRouter from './routes/authRouter.js'
 import gigRouter from './routes/gigRouter.js'
 import userRouter from './routes/userRouter.js'
+import categoryRouter from './routes/categoryRouter.js'
 
 // Configurations
 dotenv.config();
@@ -33,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', authRouter);
 app.use('/gigs', gigRouter);
 app.use('/users', userRouter);
+app.use('/categories', categoryRouter);
 
 const PORT = process.env.PORT || 8200;
 const DATABASE_LOCAL = process.env.DATABASE_LOCAL;

@@ -6,55 +6,61 @@ import User from "./UserModel.js";
 const gigSchema = mongoose.Schema({
     title: {
         type: String,
-        required: true,
+        // required: true,
         maxLength: 64
     },
-    description: {
+    customeTitle: {
+        type: String,
+        // required: true,
+        maxLength: 64
+    },
+    customeDescription: {
+        type: String,
+        // required: true,
+    },
+    summery: {
         type: String,
         // required: true,
     },
     reviews: {
         type: [String],
-        // required: true
     },
     ratingsAverage: {
         type: Number,
-        // required: true,
         max: 5,
         default: 0 
     },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
-        required: true,
+        type: String,
+        // required: true,
+    },
+    subCategory: {
+        type: String,
+        // required: true,
     },
     price: {
         type: Number,
         // required: true,
-        min: 8
+        min: 5
     },
     images: {
         type: [String],
-        required: true,
+    },
+    document: {
+        type: String,
     },
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-    },
-    shortTitle: {
         type: String,
-        // required: true,
-    },
-    shortDescription: {
-        type: String,
-        // required: true,
     },
     deliveryTime: {
         type: Number,
         // required: true,
     },
     revisions: {
+        type: Number,
+        // required: true,
+    },
+    concepts: {
         type: Number,
         // required: true,
     },

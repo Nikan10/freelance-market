@@ -10,13 +10,14 @@ const Gallery = ({ onNext }) => {
     const [document, setDocument] = useState(null)
 
     const handleImageChanges = (e) => {
-        const selectedImages = Array.from(e.target.files)
-        setImages(selectedImages)
+      setImages(Array.from(e.target.files))
     }
-
+    const handleDocumentChanges = (e) => {
+      setDocument(e.target.file)
+    }
+    console.log(document)
     const returnData = (e) => {
         e.preventDefault()
-
         onNext({images, document})
     }
   return (
@@ -31,7 +32,7 @@ const Gallery = ({ onNext }) => {
               <Typography sx={{fontWeight: 500, color: "#505050"}} variant='body2'>Drag images here or</Typography>
               <Typography sx={{fontWeight: 500, color: "primary.dark"}} variant='body2'>browse</Typography>
             </div>
-            <input accept="image/*" id="upload-images" multiple type='file' />
+            <input accept="image/*" id="upload-images" onChange={handleImageChanges} multiple type='file' />
           </div>
         </Stack>
         <br/> <br/>
@@ -42,9 +43,9 @@ const Gallery = ({ onNext }) => {
             <div className='drop-file-input-label'>
               <PhotoOutlined sx={{color: "#505050"}} className='drop-file-icon' />
               <Typography sx={{fontWeight: 500, color: "#505050"}} variant='body2'>Drag document here or</Typography>
-              <Typography sx={{fontWeight: 500, color: "primary.dark"}} variant='body2'>browse</Typography>
+              <Typography className='browse' sx={{fontWeight: 500, color: "primary.dark"}} variant='body2'>browse</Typography>
             </div>
-            <input accept="image/*" id="upload-images" multiple type='file' />
+            <input onChange={handleDocumentChanges} id="upload-images" type='file' />
           </div>
         </Stack>
         <br/>
