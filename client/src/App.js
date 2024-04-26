@@ -16,6 +16,7 @@ import { MenuOutlined } from "@mui/icons-material";
 import maherBrand from './assets/images/brandings/maher-new3.png'
 
 import Home from './pages/home/Home';
+import Join from './pages/join/Join';
 import About from './pages/About';
 import NavigationPage from './pages/navigationPage/NavigationPage';
 import Gig from './pages/gig/Gig';
@@ -24,7 +25,6 @@ import SellerDashboard from './pages/sellerDashboard/SellerDashboard';
 import Profile from './pages/profile/Profile';
 import NotFound from './pages/notFound/NotFound';
 
-import Signup from './components/signup/Signup'
 import Signin from './components/signin/Signin'
 import Header from './components/header/Header'
 import Footer from './components/footer/Footer'
@@ -36,6 +36,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import theme from './theme/theme'
 import Sidebar from './components/sidebar/Sidebar';
 import GigForm from './pages/gigForm/GigForm';
+import EditProfile from './pages/profile/editProfile/EditProfile';
 
 function App() {
   const [showSignup, setShowSignup] = useState(false);
@@ -59,7 +60,7 @@ function App() {
         <Router>
           
           <CssBaseline />
-          {showSignup ? <Signup setShowSignup={setShowSignup} showSignup={showSignup} /> : null}
+          {/* {showSignup ? <Signup setShowSignup={setShowSignup} showSignup={showSignup} /> : null} */}
           {showSignin ? <Signin setShowSignin={setShowSignin} /> : null}
           {showSidebar ? <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar} /> : null}
 
@@ -70,12 +71,14 @@ function App() {
             <main className="main">
               <Routes>
                 <Route exact path="/" element={<Home />} />
+                <Route exact path="/join" element={<Join />} />
                 <Route exact path="/create_gig" element={<GigForm />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/navigation_page" element={<NavigationPage />} />
                 <Route path="/gigs/:id" element={<Gig />} />
                 <Route path="/seller_dashboard" element={<SellerDashboard />} />
                 <Route path="/myProfile" element={<Profile />} />
+                <Route path="/editProfile" element={<EditProfile />} />
                 <Route path="/gigs" element={<Gigs />} />
                 <Route element={<NotFound/>} />
               </Routes>

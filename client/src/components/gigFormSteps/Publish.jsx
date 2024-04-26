@@ -1,24 +1,23 @@
 import React, { useState } from 'react'
 
-import { Container, Typography, Card, Grid, CardMedia, CardContent, IconButton, Button, Box, TextField, Dialog, DialogContent, Link } from '@mui/material'
+import { Container, Typography, TextField, Link } from '@mui/material'
 import { Stack } from '@mui/system'
 
-const Publish = ({ onPrev }) => {
-  const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
+const Publish = ({ formData, setFormData, onPrev }) => {
+  const [projectsNumber, setProjectsNumber] = useState(null)
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-
-        onPrev({title, description})
-    }
+  const handleChange = (e) => {
+    setProjectsNumber(e.target.value)
+    setFormData({ ...formData, projectsNumber})
+  }
+  console.log(formData)
   return (
     <Container>
         <Typography variant='h4'>Finalize</Typography> <br/>
         <Stack>
           <Typography variant='h6' fontWeight={500}>Maximum number of simultaneous projects</Typography>
           <Typography color='black.main' variant='body2'>How many projects can you handle at one time and still deliver great results.</Typography> <br/>
-          <TextField variant='outlined' size="small" type='number'  placeholder='3' name='projects-number' sx={{marginBottom: "1.2rem", width: "6rem"}} onChange={e => setTitle(e.target.value)} />
+          <TextField size="small" type='number'  placeholder='3' name='projectsNumber' sx={{marginBottom: "1.2rem", width: "6rem"}} onChange={handleChange} />
         </Stack>
         <br/>
         <Stack>

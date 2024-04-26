@@ -127,7 +127,7 @@ const Home = () => {
         <br/>
         <Carousel responsive={responsive}>
         {cards.map((card) => (
-              <Card sx={{boxShadow: "none", margin: "0 0.6rem", backgroundColor: "transparent"}}>
+              <Card key={card} sx={{boxShadow: "none", margin: "0 0.6rem", backgroundColor: "transparent"}}>
                 <CardMedia component="img" height="160" image={stormseeker} sx={{borderRadius: "6px"}} alt="Image title" />
                 <CardContent sx={{padding: 0, paddingTop: "1rem"}}>
                   <Box sx={{marginBottom: "0.8rem", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
@@ -180,7 +180,7 @@ const Home = () => {
           <Typography variant='h5' fontWeight={600} gutterBottom>Logo Design FAQs</Typography>
         </Stack>
         <br/>
-        <Grid columnSpacing={8} md={{columnSpacing: "4"}}rowSpacing={4} container>
+        <Grid columnSpacing={8} rowSpacing={4} container>
           <Grid lg={6} sm={12} item>
             <Typography fontWeight={600}>What is logo dsign?</Typography>
             <Typography variant='body2' color="gray">ajhsskahb xs sajb shb xhsbxb xhjcbisuwo jsih ush hsu shaiusgh ws hgzuisaijsb xsugxh sjhcvs hxguysai sj sgss hsyhygxc</Typography>

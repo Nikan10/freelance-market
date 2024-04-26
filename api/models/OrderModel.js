@@ -21,11 +21,11 @@ const orderSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    job: {
+    gig: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    gig: {
+    proposal: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },

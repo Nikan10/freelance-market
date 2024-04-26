@@ -21,14 +21,15 @@ const sendResponse = (user, statusCode, res) => {
     })
 }
 
-export const signup = async (req, res) => {
+export const signup = async (req, res, next) => {
 
     const UserData = {
-        username: req.body.username,
+        name: req.body.name,
+        lastname: req.body.lastname,
         email: req.body.email,
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
-        role: req.body.role,
+        country: req.body.country
     }
 
     try{

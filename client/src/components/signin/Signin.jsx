@@ -56,7 +56,6 @@ const Signin = (props) => {
             <form onSubmit={handleSubmit} style={{marginTop: "1rem", justifyContent: "center", padding: "1rem"}}>
               <TextField variant='outlined' label="Email" size="small" fullWidth name='email' sx={{marginBottom: "1.2rem"}} onChange={handleChange} />
               <TextField variant='outlined' label="Password" size="small" fullWidth name='password' sx={{marginBottom: "1.2rem"}} onChange={handleChange} /> 
-
               <Button variant='contained' fullWidth type='submit' >Continue</Button>
             </form>
           </CardContent>

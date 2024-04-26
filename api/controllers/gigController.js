@@ -42,14 +42,26 @@ export const resizeGigImages = async (req, res, next) => {
 }
 
 export const createGig = async (req, res, next) => {
+    const gigData = {
+        title: req.body.title,
+        customeTitle: req.body.customeTitle,
+        customeDescription: req.body.customeDescription,
+        deliveryTime: req.body.delivery,
+        revisions: req.body.revisions,
+        concepts: req.body.concepts,
+        category: req.body.category,
+        subCategory: req.body.subCategory,
+        images: req.body.images,
+        document: req.body.document,
+        summery: req.body.summery,
+        price: req.body.totalPrice
+    }
     try {
-        const gig = await Gig.create(req.body)
-        // console.log(req.body)
+        const newGig = await Gig.create(gigData)
+        console.log(req.body)
         res.status(200).json({
             status: "success",
-            data: {
-                gig
-            }
+            newGig
         })
     } catch(error) {
         console.log(error.message);
