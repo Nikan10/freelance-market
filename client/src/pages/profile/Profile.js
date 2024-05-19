@@ -4,8 +4,10 @@ import { Box, Container, Stack } from '@mui/system'
 import React from 'react'
 
 import dawid from '../../assets/images/categories/dawid-zawila--G3rw6Y02D0-unsplash.jpg'
+import { useSelector } from 'react-redux'
 
 const Profile = () => {
+    const currentUser = useSelector((state) => state.user.currentUser)
   return (
     <Container maxWidth="xl" sx={{marginTop: "6rem"}}>
         <Grid spacing={3} container>
@@ -15,7 +17,7 @@ const Profile = () => {
                                 <Button variant='outlined'  size='small' href='/editProfile' endIcon={<EditOutlined />}>Edit profile</Button>
                                 <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", margin: "1rem 0"}}>
                                     <Avatar src={dawid} sx={{width: "8rem", height: "8rem", marginBottom: "1rem"}} />
-                                    <Typography variant='h6' fontWeight={600}>Mohammad Sulaiman</Typography>
+                                    <Typography variant='h6' fontWeight={600} sx={{textTransform: "capitalize"}}>{currentUser.name} {currentUser.lastname}</Typography>
                                     <Typography variant='body2' color="gray">sulaiman10</Typography>
                                     <br/>
                                 </Box>

@@ -1,6 +1,6 @@
 import React from 'react';
 import './navigationPage.css';
-import heroImage from '../../assets/images/brandings/maher-new7.png'
+import heroImage from '../../assets/images/brandings/maher5.png'
 import Slider2 from '../../components/slider/Slider'
 
 import Carousel from 'react-multi-carousel'

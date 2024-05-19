@@ -35,6 +35,7 @@ const userSchema = mongoose.Schema({
     },
     profile: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Profile'
     },
     country: {
         type: String,

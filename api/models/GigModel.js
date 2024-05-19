@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
 
-import Category from "./CategoryModel.js";
-import User from "./UserModel.js";
-
 const gigSchema = mongoose.Schema({
     title: {
         type: String,
@@ -28,44 +25,73 @@ const gigSchema = mongoose.Schema({
     ratingsAverage: {
         type: Number,
         max: 5,
-        default: 0 
+        default: 0
     },
     category: {
-        type: String,
-        // required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
     },
     subCategory: {
-        type: String,
-        // required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
     },
+    attributes: [{
+        name: {
+            type: String
+        },
+        value: {
+            type: String
+        }
+    }],
+    options: [{
+        name: String,
+        status: {
+            type: String,
+            default: false
+        }
+    }],
     price: {
         type: Number,
         // required: true,
         min: 5
     },
-    images: {
-        type: [String],
+    coverImage: {
+        name: String,
+        img: {
+            data: Buffer,
+            contentType: String
+        }
     },
+    images: [{
+        name: String,
+        img: {
+            data: Buffer,
+            contentType: String
+        }
+    }],
     document: {
-        type: String,
+        type: String
     },
     user: {
-        type: String,
+        type: mongoose.Schema.Types.Object,
+        ref: 'User',
+        required: true
     },
     deliveryTime: {
         type: Number,
-        // required: true,
-    },
-    revisions: {
-        type: Number,
-        // required: true,
+        required: true,
     },
     concepts: {
         type: Number,
         // required: true,
     },
-    features: {
-        type: [String],
+    faqs: [{
+        question: String,
+        answer: String
+    }],
+    simultaneousProjects: {
+        type: Number,
+        required: true
     },
     sales: {
         type: Number,

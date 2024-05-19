@@ -15,7 +15,7 @@ export const getCategory = (req, res, next) => {
 
 export const getCategories = async (req, res, next) => {
     
-    const categories = await Category.find()
+    const categories = await Category.find().populate('subCategories')
 
     res.status(200).json({
         status: "success",

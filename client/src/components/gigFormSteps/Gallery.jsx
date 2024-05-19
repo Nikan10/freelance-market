@@ -1,31 +1,48 @@
 import React, { useState } from 'react'
 import "./gallery.css"
-import { Container, Typography, Card, Grid, CardMedia, CardContent, IconButton, Button, Box, TextField, Dialog, DialogContent, Input } from '@mui/material'
-import { PhotoOutlined, UploadFileOutlined } from '@mui/icons-material'
+import {Typography, Button, Box, TextField, Dialog, DialogContent, Input } from '@mui/material'
+import { PhotoOutlined } from '@mui/icons-material'
 import { Stack } from '@mui/system'
 
 
-const Gallery = ({ onNext }) => {
+const Gallery = ({ onNext, onPrev }) => {
+    const [coverImage, setCoverImage] = useState(null)
     const [images, setImages] = useState([])
-    const [document, setDocument] = useState(null)
+    
+
+    const handleCoverImageChanges = (e) => {
+      setCoverImage(e.target.files[0])
+    }
 
     const handleImageChanges = (e) => {
       setImages(Array.from(e.target.files))
     }
-    const handleDocumentChanges = (e) => {
-      setDocument(e.target.file)
-    }
-    console.log(document)
+    
     const returnData = (e) => {
         e.preventDefault()
-        onNext({images, document})
+        if(!images || !coverImage) return
+        onNext({images, coverImage})
+        window.scrollTo(0, 0);
     }
   return (
-    <Container>
+    <Box>
         <Typography variant='h4'>Create a Gig gallery</Typography> <br/>
         <Stack>
-          <Typography variant='h6' fontWeight={500}>Project Images</Typography>
-          <Typography color='gray' variant='body2'>Upload up to 5 images (.jpeg), upto 6MB each and less than 4,000 pixels, in width or height.</Typography> <br/>
+          <Typography variant='h6' fontWeight={500} gutterBottom>Gig Cover Photo</Typography>
+          <Typography color='gray' variant='body2'>Upload cover image (.jpeg), upto 2MB and less than 4,000 pixels, in width or height.</Typography> <br/>
+          <div className='drop-file'>
+            <div className='drop-file-input-label'>
+              <PhotoOutlined sx={{color: "#505050"}} className='drop-file-icon' />
+              <Typography sx={{fontWeight: 500, color: "#505050"}} variant='body2'>Drag image here or</Typography>
+              <Typography sx={{fontWeight: 500, color: "primary.dark"}} variant='body2'>browse</Typography>
+            </div>
+            <input accept="image" id="upload-images" onChange={handleCoverImageChanges} multiple type='file' />
+          </div>
+        </Stack>
+        <br/> <br/>
+        <Stack>
+          <Typography variant='h6' fontWeight={500} gutterBottom>Gig Images</Typography>
+          <Typography color='gray' variant='body2'>add a PDF file that is less than 2MB. Clients will only see the first 3 pages of your file.</Typography> <br/>
           <div className='drop-file'>
             <div className='drop-file-input-label'>
               <PhotoOutlined sx={{color: "#505050"}} className='drop-file-icon' />
@@ -36,21 +53,11 @@ const Gallery = ({ onNext }) => {
           </div>
         </Stack>
         <br/> <br/>
-        <Stack>
-          <Typography variant='h6' fontWeight={500}>Sample Documents (optional)</Typography>
-          <Typography color='gray' variant='body2'>add a PDF file that is less than 2MB. Clients will only see the first 3 pages of your file.</Typography> <br/>
-          <div className='drop-file'>
-            <div className='drop-file-input-label'>
-              <PhotoOutlined sx={{color: "#505050"}} className='drop-file-icon' />
-              <Typography sx={{fontWeight: 500, color: "#505050"}} variant='body2'>Drag document here or</Typography>
-              <Typography className='browse' sx={{fontWeight: 500, color: "primary.dark"}} variant='body2'>browse</Typography>
-            </div>
-            <input onChange={handleDocumentChanges} id="upload-images" type='file' />
-          </div>
-        </Stack>
-        <br/>
+        <Stack direction="row" justifyContent="space-between">
+        <Button variant='outlined' onClick={onPrev} sx={{textTransform: 'capitalize'}}>Back</Button>
         <Button variant='contained' onClick={returnData} sx={{textTransform: 'capitalize'}}>Save & Continue</Button>
-    </Container>
+      </Stack>
+    </Box>
   )
 }
 

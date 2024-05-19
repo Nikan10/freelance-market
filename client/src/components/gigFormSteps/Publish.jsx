@@ -1,23 +1,26 @@
 import React, { useState } from 'react'
 
-import { Container, Typography, TextField, Link } from '@mui/material'
-import { Stack } from '@mui/system'
+import { Container, Typography, TextField, Link, Button, Dialog } from '@mui/material'
+import { Box, Stack } from '@mui/system'
+import { LoadingButton } from '@mui/lab'
 
-const Publish = ({ formData, setFormData, onPrev }) => {
+const Publish = ({ onNext, onPrev }) => {
   const [projectsNumber, setProjectsNumber] = useState(null)
+  const [step, setStep] = useState(1)
 
-  const handleChange = (e) => {
-    setProjectsNumber(e.target.value)
-    setFormData({ ...formData, projectsNumber})
+  const returnData = (e) => {
+    e.preventDefault()
+    if(!projectsNumber) return
+    onNext({ projectsNumber })
+    setStep(step + 1)
   }
-  console.log(formData)
   return (
-    <Container>
+    <Box>
         <Typography variant='h4'>Finalize</Typography> <br/>
         <Stack>
           <Typography variant='h6' fontWeight={500}>Maximum number of simultaneous projects</Typography>
           <Typography color='black.main' variant='body2'>How many projects can you handle at one time and still deliver great results.</Typography> <br/>
-          <TextField size="small" type='number'  placeholder='3' name='projectsNumber' sx={{marginBottom: "1.2rem", width: "6rem"}} onChange={handleChange} />
+          <TextField size="small" type='number'  placeholder='3' name='projectsNumber' sx={{marginBottom: "1.2rem", width: "6rem"}} onChange={e => setProjectsNumber(e.target.value)} />
         </Stack>
         <br/>
         <Stack>
@@ -28,11 +31,23 @@ const Publish = ({ formData, setFormData, onPrev }) => {
           <Typography variant='h6' fontWeight={500}>Term of Services</Typography>
           <Stack direction="row" spacing={2} alignItems="center">
             <input type='checkbox' style={{width: "20px"}} />
-            <Typography color='black.main' variant='body2'>I understand and agree to the <Link>Maher Terms of Services</Link>, including <Link>Privacy Policy</Link>.</Typography> <br/>
+            <Typography color='black.main' variant='body2'>I unders tand and agree to the <Link>Maher Terms of Services</Link>, including <Link>Privacy Policy</Link>.</Typography> <br/>
           </Stack>
         </Stack>
-            
-    </Container>
+        <br/> <br/>
+      
+      <Stack direction="row" justifyContent="space-between">
+      <Button variant='outlined' onClick={onPrev} sx={{textTransform: 'capitalize'}}>Back</Button>
+        {step === 1 && <Stack direction="row" spacing={2}>
+          <Button variant='contained' onClick={returnData} sx={{textTransform: 'capitalize'}}>Save & Continue</Button>
+          <Button disabled variant='contained' sx={{textTransform: 'capitalize'}} type='submit'>Submit</Button>
+        </Stack>}
+        {step === 2 && <Stack direction="row" spacing={2}>
+          <Button disabled variant='contained' onClick={returnData} sx={{textTransform: 'capitalize'}}>Save & Continue</Button>
+          <LoadingButton variant='contained' sx={{textTransform: 'capitalize'}} type='submit'>Submit</LoadingButton>
+        </Stack>}
+      </Stack>
+    </Box>
   )
 }
 
