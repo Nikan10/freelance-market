@@ -17,7 +17,7 @@ const JobSchema = mongoose.Schema({
     status: {
         type: String,
         default: 'open',
-        enum: ['open','closed','in progress']
+        enum: ['open','closed']
     },
     startDate: {
         type: Date,
@@ -27,23 +27,27 @@ const JobSchema = mongoose.Schema({
         type: Date,
         required: true,
     },
-    offerId: {
+    proposal: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Offer',
         required: true
     },
-    buyerId: {
+    buyer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Buyer',
         required: true
 
     },
-    categoryId: {
+    category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
         required: true
+    },
+    subCategory: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'subCategory',
+        required: true
     }
-
 },
 {
     timestamps: true

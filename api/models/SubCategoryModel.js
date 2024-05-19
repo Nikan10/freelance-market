@@ -6,7 +6,11 @@ const subCategorySchema = mongoose.Schema({
         required: true,
         maxLength: 32
     },
-    attributes: {
+    attributes: [{
+        name: String,
+        values: [String]
+    }],
+    options: {
         type: [String]
     }
 },
@@ -14,5 +18,5 @@ const subCategorySchema = mongoose.Schema({
     timestamps: true
 })
 
-const subCategory = mongoose.model('Category', subCategorySchema)
-export default subCategory;
+const SubCategory = mongoose.model('subCategory', subCategorySchema)
+export default SubCategory;

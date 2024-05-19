@@ -2,7 +2,7 @@ import React from 'react'
 
 const NotFound = () => {
   return (
-    <div style={{ backgroundColor: 'yellow', height: '10vh'}}>NotFound</div>
+    <div style={{ backgroundColor: 'yellow', height: '10vh', marginTop: "6rem"}}>NotFound</div>
   )
 }
 

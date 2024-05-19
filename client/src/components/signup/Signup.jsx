@@ -2,11 +2,10 @@ import {React, useState} from 'react'
 import request from '../../utils/request.js'
 import { useNavigate } from 'react-router-dom'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { loginStart, loginSuccess, loginFailure } from '../../state/userSlice.js'
 
-import { Container, Typography, Card, CardMedia, CardContent, IconButton, Button, Box, TextField, Dialog, DialogContent, Autocomplete, Link, Input } from '@mui/material'
-import { ArrowBack } from "@mui/icons-material";
+import { Container, Typography, Button, TextField, Autocomplete, Link, Input } from '@mui/material'
 import { Stack } from '@mui/system'
 
 
@@ -23,7 +22,7 @@ const Signup = ({ stage }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
+    
     if(stage === 1) setFormData({ ...formData, isSeller: true })
     dispatch(loginStart());
 
@@ -32,7 +31,7 @@ const Signup = ({ stage }) => {
       if(response.data) {
         const currentUser = localStorage.setItem('currentUser', JSON.stringify(response.data?.user))
         dispatch(loginSuccess(currentUser))
-        navigate('/')
+        navigate('/createProfile')
       }
     } catch(error) {
       console.log(error.message)

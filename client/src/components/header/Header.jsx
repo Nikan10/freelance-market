@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { Help, HelpCenterOutlined, HelpOutline, MailOutlined, MenuOutlined, MessageOutlined, NotificationAddOutlined, NotificationImportantOutlined, NotificationsActiveOutlined, NotificationsOutlined, SearchOutlined } from '@mui/icons-material'
-import { AppBar, Box, IconButton, Stack, Toolbar, Button, makeStyles, Avatar, Menu, MenuItem, Typography, List, ListItem, ListItemIcon, ListItemText, ListItemAvatar, TextField, InputAdornment, ButtonGroup } from '@mui/material'
-import maherBrand from '../../assets/images/brandings/maher new2.png'
-import { Link } from 'react-router-dom'
+import { AppBar, Box, IconButton, Stack, Toolbar, Button, Avatar, Menu, MenuItem, Typography, List, ListItem, ListItemIcon, ListItemText, ListItemAvatar, TextField, Link } from '@mui/material'
+import maherBrand from '../../assets/images/brandings/maher6.png'
 
 import { logout } from '../../state/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,10 +9,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import jason from '../../assets/images/categories/jason-blackeye-XbjM0as0nao-unsplash.jpg'
 import request from '../../utils/request'
 import { useNavigate } from 'react-router-dom'
+import { Container } from '@mui/system'
 
 const Header = (props) => {
   const isLoggedIn = useSelector( state => state.user.isLoggedIn )
-  const {setShowSignin, setShowSignup, setShowSidebar} = props
+  const currentUser = useSelector( state => state.user.currentUser )
+  const {setShowSignin, setShowSidebar} = props
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -51,27 +52,31 @@ const Header = (props) => {
       await request.post('/logout')
       dispatch(logout());
       localStorage.removeItem('currentUser')
-      navigate("/navigation_page")
+      navigate("/navigationPage")
     } catch(error) {
       console.log(error.message)
     }
   }
 
   return (
-    <AppBar sx={{boxShadow: "none", borderBottom: "1px solid #eee"}}>
-        <Toolbar sx={{backgroundColor: "white"}}>
+    <AppBar sx={{boxShadow: "none", borderBottom: "1px solid #eee", backgroundColor: "#fff"}}>
+      <Container maxWidth="xl">
+      {isLoggedIn ?
+        <Toolbar>
             <Stack sx={{flexGrow: 1, alignItems: "center", height: "100%"}} spacing={1} direction="row">
-              <IconButton onClick={() => setShowSidebar(true)}>
+              {/* <IconButton onClick={() => setShowSidebar(true)}>
                   <MenuOutlined />
-              </IconButton>
-              <Link to="/"><img src={maherBrand} height="30" alt='' /></Link>
-              {isLoggedIn ? <Stack direction="row" spacing={1}>
-                <TextField size='small' type='text' sx={{paddingRight: 0}}  InputProps={{ endAdornment: <InputAdornment position="end" ><Button size='small' variant='contained'><SearchOutlined /></Button></InputAdornment>}} /> 
-              </Stack> : null}
+              </IconButton> */}
+              <Link href="/"><img src={maherBrand} style={{marginRight: "1rem"}} height="30" alt='' /></Link>
+              <Button sx={{textTransform: "capitalize", color: "black.main", marginLeft: "8rem"}} href="/sellerDashboard">Dashboard</Button>
+              <Button sx={{textTransform: "capitalize", color: "black.main"}} href={`users/${currentUser._id}/manageOrders`}>Orders</Button>
+              <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/myGigs">Gigs</Button>
+              <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/jobs">Jobs</Button>
+              <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/earnings">Earnings</Button>
+              <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/more">More</Button>
             </Stack>
-            {isLoggedIn ?
+            
               <Stack direction="row" spacing={1} sx={{display: {xs: "none", md: "flex"}}}>
-                <Button sx={{textTransform: "capitalize", color: "gray"}} href="/seller_dashboard">Dashboard</Button>
                 <Button 
                   id='notifications-button' 
                   sx={{textTransform: "capitalize", color: "gray"}}
@@ -112,7 +117,6 @@ const Header = (props) => {
                       </MenuItem>
                     </Stack>
                   </Menu>
-
                 <Button 
                   id="messages-button"
                   sx={{textTransform: "capitalize", color: "gray"}}
@@ -157,23 +161,30 @@ const Header = (props) => {
                   aria-expanded={ avatarOpen ? 'true' : undefined}
                 />
                   <Menu id="user-menu" anchorEl={avatarAnchorEl} open={avatarOpen} MenuListProps={{'aria-labelledby': 'user-button'}} onClose={handleAvatarClose}>
-                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem", color: "gray"}}><Link to="/create_gig" sx={{textDecoration: "none"}}>Create gig</Link></MenuItem>
-                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem", color: "gray"}}><Link to="/myProfile" sx={{textDecoration: "none"}}>My profile</Link></MenuItem>
-                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem", color: "gray"}}><Link to="/gigs" sx={{textDecoration: "none"}}>Gigs</Link></MenuItem>
-                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem", color: "gray"}}><Link sx={{textDecoration: "none"}} onClick={logoutUser}>Log out</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/createGig" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>Create gig</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/myProfile" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>My profile</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/gigs" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>Gigs</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link sx={{textDecoration: "none", width: "100%"}} onClick={logoutUser}>Log out</Link></MenuItem>
                   </Menu>
-              </Stack> :
-              <Stack direction="row" spacing={1} sx={{display: {xs: "none", md: "flex"}}}>
+              </Stack>
+              
+        </Toolbar>
+        :
+        <Toolbar>
+            <Stack direction="row" sx={{flex: 1}}>
+              <Link to="/"><img src={maherBrand} style={{marginRight: "1rem"}} height="30" alt='' /></Link>
+            </Stack>
+            <Stack direction="row" spacing={1} sx={{display: {xs: "none", md: "flex"}}}>
                 <Button sx={{textTransform: "capitalize", color: "gray"}} href="/">Home</Button>
                 <Button sx={{textTransform: "capitalize", color: "gray"}} href="/services">Services</Button>
-                <Button sx={{textTransform: "capitalize", color: "gray"}} href="/navigation_page">Navigation</Button>
+                <Button sx={{textTransform: "capitalize", color: "gray"}} href="/navigationPage">Navigation</Button>
                 <Button sx={{textTransform: "capitalize", color: "gray"}} href="/terms_of_services">Term of Services</Button>
                 <Button sx={{textTransform: "capitalize", color: "gray"}} onClick={setShowSignin}>Sign in</Button>
                 <Button sx={{textTransform: "capitalize"}} variant='outlined' href='/join'>Join</Button>
-              </Stack>
-            }
-            
+            </Stack>
         </Toolbar>
+      }
+      </Container>
     </AppBar>
   )
 }

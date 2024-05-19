@@ -5,9 +5,9 @@ import User from '../models/UserModel.js'
 const protect = async (req, res, next) => {
     let token
     if(req.headers.authorization) token = req.headers.authorization;
-
+    
     if(!token) {
-        return console.log(new Error('You are not logged in'))
+        return next(new Error('You are not logged in'))
     }
     const decodeToken = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
     

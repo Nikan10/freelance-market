@@ -9,34 +9,55 @@ const orderSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
+    concepts: {
+        type: Number,
+    },
+    deliveryTime: {
         type: String,
-        required: true
+        required: true,
     },
     seller: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     buyer: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     gig: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Gig',
         required: true
     },
-    proposal: {
+    job: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        ref: 'Job',
+        // required: true
+    },
+    startDate: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
+    endDate: {
+        type: Date,
+        required: true,
+        default: function() {
+            const endDate = new Date(this.startDate);
+            endDate.setDate(endDate.getDate() + this.deliveryTime)
+            return endDate
+        }
     },
     status: {
         type: String,
-        enum: ['pending', 'completed', 'diputed'],
+        enum: ['pending', 'in progress', 'completed', 'cancelled'],
         default: "pending"
     },
     paymentIntent: {
         type: String,
-        required: true
+        // required: true
     }
 },
 {
