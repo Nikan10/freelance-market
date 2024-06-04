@@ -1,9 +1,25 @@
 import { NavigateNext } from "@mui/icons-material";
-import { Autocomplete, Button, TextField, Typography } from "@mui/material";
+import { Autocomplete, Button, Chip, TextField, Typography } from "@mui/material";
 import { Box, Container, Stack } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
 
 const AddSkills = ({ onNext, onPrev }) => {
+  const [skillValue, setSkillValue] = useState('')
+  const [skills, setSkills] = useState([])
+
+  const handleAddSkill = (event) => {
+    if(event.key === 'Enter' && skillValue) {
+      event.preventDefault();
+      if(!skills.includes(skillValue)) {
+        setSkills((prevSkill) => [...prevSkill, skillValue]);
+      }
+      setSkillValue('')
+    }
+  }
+  
+  const returnData = () => {
+    onNext({skills})
+  }
   return (
     <Box paddingTop="8rem" sx={{ height: "100vh" }}>
       <Container maxWidth="sm">
@@ -18,11 +34,29 @@ const AddSkills = ({ onNext, onPrev }) => {
       <br />
       <Container maxWidth="sm">
         <Autocomplete
+          multiple
+          freeSolo
           sx={{ maxWidth: "80%"}}
           size="small"
-          options={["Basic", "Conversational", "Fluent", "Native"]}
-          renderInput={(params) => <TextField {...params} label="Search for service" />}
+          value={skills}
+          inputValue={skillValue}
+          onChange={(event, newValue) => setSkills(newValue)}
+          onInputChange={(event, newInputValue) => {
+            setSkillValue(newInputValue);
+          }}
+          renderTags={(value, getTagProps) => 
+            value.map((option, index) => (
+              <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+            ))
+          }
+          options={[]}
+          renderInput={(params) => (<TextField {...params}  label="Skills" placeholder="Add a tag" onKeyPress={handleAddSkill} />)}
         />
+        <Stack>
+          {/* {skills && skills.map((skill) => (
+            <Chip>{skill}</Chip>
+          ))} */}
+        </Stack>
       </Container>
       <Box
         sx={{
@@ -39,7 +73,7 @@ const AddSkills = ({ onNext, onPrev }) => {
         <Container>
           <Stack direction="row" justifyContent="space-between">
             <Button variant="outlined" onClick={onPrev}>Back</Button>
-            <Button variant="contained" onClick={onNext}>
+            <Button variant="contained" onClick={returnData}>
               Next
               <NavigateNext />
             </Button>

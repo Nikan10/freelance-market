@@ -29,7 +29,7 @@ const orderSchema = mongoose.Schema({
     gig: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Gig',
-        required: true
+        // required: true
     },
     job: {
         type: mongoose.Schema.Types.ObjectId,

@@ -1,6 +1,6 @@
 import React from 'react';
 import './navigationPage.css';
-import heroImage from '../../assets/images/brandings/maher5.png'
+import heroImage from '../../assets/images/brandings/—Pngtree—3d illustration for website_13010031.png'
 import Slider2 from '../../components/slider/Slider'
 
 import Carousel from 'react-multi-carousel'
@@ -53,7 +53,7 @@ function NavigationPage() {
           </div>
         </div>
         <div className='hero-image'>
-          <img src={heroImage} alt='hero' ></img>
+          <img src={heroImage} style={{width: "34rem"}} alt='hero' ></img>
         </div>
       </section>
       <br/>

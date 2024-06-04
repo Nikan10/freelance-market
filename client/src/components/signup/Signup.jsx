@@ -31,7 +31,7 @@ const Signup = ({ stage }) => {
       if(response.data) {
         const currentUser = localStorage.setItem('currentUser', JSON.stringify(response.data?.user))
         dispatch(loginSuccess(currentUser))
-        navigate('/createProfile')
+        navigate('/profile/create')
       }
     } catch(error) {
       console.log(error.message)
@@ -51,7 +51,6 @@ const Signup = ({ stage }) => {
           <TextField variant='outlined' onChange={handleChange} type='email' placeholder='Email' fullWidth size="small" name='email' />
           <TextField variant='outlined' onChange={handleChange} type='password' placeholder='Password' fullWidth size="small" name='password' />
           <TextField type='password' onChange={handleChange} placeholder='Confirm password' fullWidth size="small" name='passwordConfirm' />
-          <Autocomplete size='small' onChange={(e, value) => { setFormData({ ...formData, country: value})}} fullWidth options={['AFG', 'IRN', 'PAK']} renderInput={(params) => <TextField {...params} name='country' placeholder='Country'/>} />
         </Stack>
         <Stack direction="row" spacing={1} margin="2rem 0" alignItems="center">
           <Input style={{width: "1rem"}} type='checkbox' />

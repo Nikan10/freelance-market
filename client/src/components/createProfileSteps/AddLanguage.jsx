@@ -14,8 +14,6 @@ import { Box, Container, Stack } from "@mui/system";
 import React, { useState } from "react";
 
 const AddLanguage = ({ onNext, onPrev }) => {
-  const [language, setLanguage] = useState('');
-  const [proficiency, setProficiency] = useState('')
   const [languages, setLanguages] = useState([
     {
       language: '',
@@ -23,46 +21,28 @@ const AddLanguage = ({ onNext, onPrev }) => {
     }
   ]);
 
-  // const handleLanguageChange = (index) => {
-  //   return (event) => {
-  //     const newQuestion = [...questions];
-  //     newQuestion[index] = event.target.value;
-  //     setQuestions(newQuestion);
-  //     console.log(questions)
-  //   };
-  // };
+  const handleLanguageChange = (index, value) => {
+    const newLanguage = languages
+    newLanguage[index].language = value;
+    setLanguages(newLanguage)
+  };
 
-  // const handleProficiencyChange = (index) => {
-  //   return (event) => {
-  //     const newAnswer = [...answers];
-  //     newAnswer[index] = event.target.value;
-  //     setAnswers(newAnswer);
-  //     console.log(answers)
-  //   };
-  // };
+  const handleProficiencyChange = (index, value) => {
+    const newProficiency = languages
+    newProficiency[index].proficiency = value;
+    setLanguages(newProficiency)
+  };
 
-  // const handleAddLanguage = () => {
-  //   setLanguages([...languages, {
-  //     language,
-  //     proficiency
-  //   }]);
-  // };
-  // const handleRemoveLanguage = (index) => {
-  //   const questionsCopy = [...questions];
-  //   questionsCopy.splice(index, 1);
-  //   setQuestions(questionsCopy);
-    
-  //   const answersCopy = [...answers];
-  //   answersCopy.splice(index, 1);
-  //   setAnswers(answersCopy);
-  // };
-
-  // const handleAddLanguage = (e, value) => {
-  //   setLanguages({...languages, value})
-  // }
+  const handleAddLanguage = () => {
+    setLanguages([...languages, {
+      language: '',
+      proficiency: ''
+    }]);
+  };
+  console.log(languages)
 
   const returnDate = () => {
-
+    onNext({ languages })
   };
   console.log(languages)
   return (
@@ -90,7 +70,7 @@ const AddLanguage = ({ onNext, onPrev }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            { (<TableRow>
+            {languages.map((language, i) => (<TableRow>
               <TableCell variant="body2" sx={{ color: "black.light" }}>
                 <Autocomplete
                   sx={{ maxWidth: "10rem" }}
@@ -99,13 +79,14 @@ const AddLanguage = ({ onNext, onPrev }) => {
                     "African",
                     "Arabic",
                     "Chiness",
+                    "English",
                     "Japaness",
                     "Pashto",
                     "Persion",
                     "Russian",
                     "Urdu",
                   ]}
-                  onChange={(e, value) => setLanguage(value)}
+                  onChange={(e, value) => handleLanguageChange(i, value)}
                   renderInput={(params) => (
                     <TextField {...params} label="Language" />
                   )}
@@ -115,18 +96,19 @@ const AddLanguage = ({ onNext, onPrev }) => {
                 <Autocomplete
                   sx={{ maxWidth: "10rem" }}
                   size="small"
-                  onChange={(e, value) => setProficiency(value)}
+                  onChange={(e, value) => handleProficiencyChange(i, value)}
                   options={["Basic", "Conversational", "Fluent", "Native"]}
                   renderInput={(params) => (
                     <TextField {...params} label="My level" />
                   )}
                 />
               </TableCell>
-            </TableRow>)}
+            </TableRow>)
+            )}
           </TableBody>
         </Table>
         <br/>
-        <Button startIcon={<Add />}>Add a language</Button>
+        <Button onClick={handleAddLanguage} startIcon={<Add />}>Add a language</Button>
       </Container>
 
       <Box
@@ -144,7 +126,7 @@ const AddLanguage = ({ onNext, onPrev }) => {
         <Container>
           <Stack direction="row" justifyContent="space-between">
             <Button variant="outlined" onClick={onPrev}>Back</Button>
-            <Button variant="contained" onClick={onNext}>
+            <Button variant="contained" onClick={returnDate}>
               Next
               <NavigateNext />
             </Button>

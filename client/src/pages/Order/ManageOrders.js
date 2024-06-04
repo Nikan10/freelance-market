@@ -1,4 +1,4 @@
-import { MailLock } from "@mui/icons-material";
+import { Cookie, MailLock } from "@mui/icons-material";
 import {
   Autocomplete,
   Avatar,
@@ -24,16 +24,18 @@ import {
 import { Box, Container, Stack } from "@mui/system";
 import React, { useState } from "react";
 import request from "../../utils/request";
+import Cookies from 'js-cookie'
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 const ManageOrders = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
+  const token = Cookies.get('token');
   const [seller, setSeller] = useState(false);
-  // let seller = false
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzMzOTM5ZDkxM2IyMDk0NGUyYzliYyIsImlhdCI6MTcxNTAwODc4OH0.QqpoZl5Elb3ewmZSJLPIxqpaB7G7oFVKNstBf-piuOc";
+  // const [isSeller, setIsSeller] = useState();
+  
+  
   const { isLoading, error, data, refetch } = useQuery({
     queryKey: ["sellerOrders"],
     queryFn: () => {
@@ -52,9 +54,10 @@ const ManageOrders = () => {
     },
   });
 
+  // if(currentUser.isSeller && data) setIsSeller(data?.seller?._id);
+
   const handleOrdersTypeChange = (event, value) => {
     if (value === "Selling") setSeller(true);
-    console.log(seller);
     refetch();
   };
 
@@ -79,7 +82,7 @@ const ManageOrders = () => {
           <Container>
             <Stack direction="row" justifyContent="space-between">
               <Box></Box>
-              <Autocomplete
+              {currentUser?.isSeller && <Autocomplete
                 onChange={handleOrdersTypeChange}
                 size="small"
                 sx={{ width: "11rem", border: 0 }}
@@ -91,9 +94,10 @@ const ManageOrders = () => {
                     sx={{ border: 0 }}
                   />
                 )}
-              />
+              />}
             </Stack>
-            <Typography variant="h5">Manage Sales</Typography>
+            {seller && <Typography variant="h5">Manage Sales</Typography>}
+            {!seller && <Typography variant="h5">Manage Shoppings</Typography>}
           </Container>
           <br />
           <Container>
@@ -102,7 +106,6 @@ const ManageOrders = () => {
               <Button>Active</Button>
               <Button>Late</Button>
               <Button>Delivered</Button>
-              <Button>Completed</Button>
               <Button>Cancelled</Button>
             </Stack>
             <Box>
@@ -132,7 +135,7 @@ const ManageOrders = () => {
                       <TableRow
                         key={order._id}
                         component={Link}
-                        href={`/users/${order?.buyer?._id}/manageOrders/${order?._id}`}
+                        href={`/users/${currentUser._id}/manageOrders/${order?._id}`}
                         sx={{
                           textDecoration: "none",
                           "&:hover": {

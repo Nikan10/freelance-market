@@ -22,15 +22,16 @@ import brochreImage from "../../assets/images/categories/Brochure1.jpg";
 import logoImage from "../../assets/images/categories/logo4.jpg";
 
 import { Link } from "react-router-dom";
+import request from "../../utils/request";
 
 const GigCard = ({ gig }) => {
-  
+
     const base64String = btoa(
       String.fromCharCode(
         ...new Uint8Array(gig?.coverImage?.img?.data?.data)
       )
     );
-    console.log(gig?.user)
+
   return (
     <Link to={`/users/${gig?.user?._id}/gigs/${gig?._id}`} style={{ textDecoration: "none" }}>
       <Card

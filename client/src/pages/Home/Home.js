@@ -44,7 +44,7 @@ const Home = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [search, setSearch] = useState("");
 
-  let category = "";
+  let subCategory = "";
   let maxBudget = "";
   let delivery = "";
 
@@ -72,7 +72,7 @@ const Home = () => {
     queryFn: () => {
       return request
         .get(
-          `/users/guest/gigs?search=${search}&category=${category}&max=${maxBudget}&delivery=${delivery}`
+          `/users/all/gigs?search=${search}&subCategory=${subCategory}&max=${maxBudget}&delivery=${delivery}`
         )
         .then((res) => {
           return res.data;
@@ -88,7 +88,7 @@ const Home = () => {
     refetch();
   };
   const selectCategory = (cat) => {
-    category = cat;
+    subCategory = cat;
     refetch();
   };
   const handleBudgetChange = (event, value) => {
@@ -189,7 +189,7 @@ const Home = () => {
               onChange={handleBudgetChange}
               sx={{ width: "9rem" }}
               options={["5", "10", "15", "20", "30", "50", "70", "100"]}
-              renderInput={(params) => <TextField {...params} label="budget" />}
+              renderInput={(params) => <TextField {...params} label="$ budget" />}
             />
             <Autocomplete
               size="small"
@@ -197,7 +197,7 @@ const Home = () => {
               sx={{ width: "9rem" }}
               options={["1", "2", "3", "4", "5", "6", "7"]}
               renderInput={(params) => (
-                <TextField {...params} label="Delivery time" />
+                <TextField {...params} label="Delivery days" />
               )}
             />
           </Stack>
@@ -245,7 +245,7 @@ const Home = () => {
           </Grid>
         </Container>
         <br />
-        <Container
+        {/* <Container
           maxWidth="xl"
           sx={{ backgroundColor: "#eee", padding: "4rem 0" }}
         >
@@ -254,82 +254,23 @@ const Home = () => {
           </Typography>
           <br />
           <Carousel responsive={responsive}>
-            {cards.map((card) => (
-              <Card
-                key={card}
-                sx={{
-                  boxShadow: "none",
-                  margin: "0 0.6rem",
-                  backgroundColor: "transparent",
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  height="160"
-                  image={stormseeker}
-                  sx={{ borderRadius: "6px" }}
-                  alt="Image title"
-                />
-                <CardContent sx={{ padding: 0, paddingTop: "1rem" }}>
-                  <Box
-                    sx={{
-                      marginBottom: "0.8rem",
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      <Avatar
-                        sx={{ width: "2rem", height: "2rem" }}
-                        src={jason}
-                      />
-                      <Typography variant="body2" fontWeight={600}>
-                        Sulaiman
-                      </Typography>
-                    </Stack>
-                    <Typography
-                      variant="body2"
-                      fontSize={12}
-                      fontWeight={600}
-                      sx={{
-                        height: "auto",
-                        backgroundColor: "cyan",
-                        borderRadius: "4px",
-                        padding: "0.2rem",
-                      }}
-                    >
-                      Trusted
-                    </Typography>
+            {data.map((gig) => {
+              if(gig.subCategory === subCategory) {
+                return (
+                  <Box sx={{margin: "0.6rem"}}>
+                    <GigCard gig={gig} />
                   </Box>
-                  <Typography
-                    variant="body2"
-                    fontWeight={600}
-                    color="#464646"
-                    gutterBottom
-                  >
-                    I will design modern minimalist luxury business logo design
-                  </Typography>
-                  <Stack
-                    margin="0.4rem 0"
-                    spacing={0.6}
-                    alignItems="center"
-                    direction="row"
-                  >
-                    <StarRateRounded />
-                    <Typography variant="body2" fontWeight={600}>
-                      4.9
-                    </Typography>
-                  </Stack>
-                  <Typography variant="body2" fontWeight={800}>
-                    From $80
-                  </Typography>
-                </CardContent>
-              </Card>
-            ))}
+                )
+              } else if (gig.subCategory === '66477a6c2a2f569ad8623dd1') {
+                return (
+                  <Box sx={{margin: "0.6rem"}}>
+                    <GigCard gig={gig} />
+                  </Box>
+                )
+              }
+            })}
           </Carousel>
-        </Container>
+        </Container> */}
         <br />
         <Container maxWidth="xl">
           <Divider />

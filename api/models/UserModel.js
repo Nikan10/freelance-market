@@ -37,10 +37,6 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Profile'
     },
-    country: {
-        type: String,
-        required: true
-    },
     isSeller: {
         type: Boolean,
         required: true,

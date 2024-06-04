@@ -58,15 +58,17 @@ const object = { name: "jan", latname: "khan" };
 const Gig = () => {
   const [active, setActive] = useState(0);
   const userId = useSelector((state) => state?.user?.currentUser?._id);
+  const token = Cookies.get('token')
   const { gigId, id } = useParams();
-
+  
   let slideShowImages = []
+
+  const navigate = useNavigate();
   
   const handleSlideChange = (state) => {
     setActive(state)
   }
-  // const token = Cookies.get('token')
-  const navigate = useNavigate();
+  
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -123,52 +125,107 @@ const Gig = () => {
     },
   };
 
-  const { isLoading, error, data } = useQuery({
+  const gig = useQuery({
     queryKey: ["gig"],
     queryFn: () => {
-      return request.get(`/users/${id}/gigs/${gigId}`).then((res) => {
-        return res.data;
-      });
+      return request
+        .get(
+          `/users/${id}/gigs/${gigId}`,
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        )
+        .then((res) => {
+          return res.data;
+        });
     },
   });
 
+  const user = useQuery({
+    queryKey: ["user", gig.data],
+    queryFn: () => {
+      return request
+        .get(
+          `users/${gig?.data?.user?._id}`,
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        )
+        .then((res) => {
+          return res.data;
+        });
+    },
+    enabled: !!gig.data
+  });
+
+  let userPhoto = '';
+  if(user.data) {
+    userPhoto = btoa(
+      String.fromCharCode(
+        ...new Uint8Array(user?.data?.profile?.photo?.img.data.data)
+      )
+    );
+  }
+
+  const myGigs = useQuery({
+    queryKey: ["myGigs"],
+    queryFn: () => {
+      return request
+        .get(
+          `/users/${id}/gigs`,
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        )
+        .then((res) => {
+          return res.data;
+        });
+    },
+  });
+  
   const handleGotoOrder = () => {
     navigate(`/gigs/${gigId}/orders/create`);
   };
   
-  if(data) {
-    slideShowImages.push(...[data?.gig?.coverImage, ...data?.gig?.images])
+  if(gig.data) {
+    slideShowImages.push(...[gig?.data?.coverImage, ...gig?.data?.images])
   }
 
   return (
     <Box className="gig" marginTop="8rem">
       <Container maxWidth="lg">
-        <Grid columnSpacing={6} container>
+        <Grid columnSpacing={10} container>
           <Grid md="8" item>
-            {isLoading ? (
+            {gig?.isLoading ? (
               "loading"
-            ) : error ? (
+            ) : gig?.error ? (
               "Something went wrong"
             ) : (
               <Box>
                 <Typography variant="h5" fontWeight={600}>
-                  {data?.gig?.title}
+                  {gig?.data?.title}
                 </Typography>
                 <br />
                 <Stack direction="row" spacing={2}>
-                  <Avatar src={jason} />
+                  <Avatar src={`data:image/jpeg;base64,${userPhoto}`} />
                   <Stack>
                     <Typography
                       fontWeight={500}
                       sx={{ textTransform: "capitalize" }}
                       variant="body2"
                     >
-                      {data?.gig?.user?.name} {data?.gig?.user?.lastname}
+                      {gig?.data?.user?.name} {gig?.data?.user?.lastname}
                     </Typography>
                     <Stack direction="row" spacing={1} alignItems="center">
                       <Star fontSize="3rem" />
                       <Typography variant="body2" fontWeight={600}>
-                        {data?.gig?.ratingsAverage}
+                        {gig?.data?.ratingsAverage}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -194,16 +251,17 @@ const Gig = () => {
                     width: "100%",
                     height: "100%",
                     overflow: "hidden",
-                    backgroundColor: "lightgray",
                   }}
                 >
                   <Carousel afterChange={handleSlideChange} responsive={responsive}>
                     {slideShowImages && slideShowImages?.map((image, i) => {
+
                       const base64String = btoa(
                         String.fromCharCode(
                           ...new Uint8Array(image.img.data.data)
                         )
                       );
+                      
                       return (
                         <img
                           src={`data:image/jpeg;base64,${base64String}`}
@@ -254,23 +312,23 @@ const Gig = () => {
                   </Typography>
                   <br />
                   <Typography fontWeight={500}>
-                    {data?.gig?.customeTitle}
+                    {gig?.data?.customeTitle}
                   </Typography>
                   <br />
                   <Box>
                     <Typography variant="body2" fontWeight={500}>
-                      {data?.gig?.customeDescription}
+                      {gig?.data?.customeDescription}
                     </Typography>
                     <br />
                     <Typography variant="body2">
-                      {data?.gig?.summery}
+                      {gig?.data?.summery}
                     </Typography>
                   </Box>
                   <br /> <br />
                   <Box>
                     <Typography fontWeight={500} variant="h6" gutterBottom>Frequently asked questions</Typography>
                     <br />
-                    {data?.gig?.faqs.map((faq) => (
+                    {gig?.data?.faqs.map((faq) => (
                       <Box>
                         <Typography fontWeight={500} gutterBottom>{faq.question}</Typography>
                         <Typography variant="body2">{faq.answer}</Typography>
@@ -288,7 +346,7 @@ const Gig = () => {
                   <Stack direction="row" spacing={3}>
                     <Avatar
                       sx={{ width: "4.5rem", height: "4.5rem" }}
-                      src={jason}
+                      src={`data:image/jpeg;base64,${userPhoto}`}
                     />
                     <Stack>
                       <Stack direction="row" spacing={12}>
@@ -296,7 +354,7 @@ const Gig = () => {
                           fontWeight={500}
                           sx={{ textTransform: "capitalize" }}
                         >
-                          {data?.gig?.user?.name} {data?.gig?.user?.lastname}
+                          {gig?.data?.user?.name} {gig?.data?.user?.lastname}
                         </Typography>
                         <Typography
                           variant="body2"
@@ -309,7 +367,7 @@ const Gig = () => {
                         </Typography>
                       </Stack>
                       <Typography variant="body2" color="black.light">
-                        Web and Logo Designer
+                        {user?.data?.profile?.profileTitle}
                       </Typography>
                       <Stack direction="row" spacing={4} alignItems="center">
                         <Stack direction="row" alignItems="center">
@@ -631,14 +689,14 @@ const Gig = () => {
                     >
                       Price
                     </Typography>
-                    <Typography fontWeight={500}>${data?.gig?.price}</Typography>
+                    <Typography fontWeight={500}>${gig?.data?.price}</Typography>
                   </Stack>
                   <Typography
                     variant="body2"
                     color="black.light"
                     fontWeight={400}
                   >
-                    {data?.gig?.customeDescription}
+                    {gig?.data?.customeDescription}
                   </Typography>
 
                   <Stack direction="row" alignItems="center" spacing={1}>
@@ -648,7 +706,7 @@ const Gig = () => {
                       sx={{ color: "black.main" }}
                       fontWeight={700}
                     >
-                      {data?.gig?.deliveryTime} Days <br /> Delivery
+                      {gig?.data?.deliveryTime} Days <br /> Delivery
                     </Typography>
                   </Stack>
 
@@ -658,10 +716,10 @@ const Gig = () => {
                           <Done />
                         </ListItemIcon>
                         <ListItemText>
-                          <Typography variant="body2" fontWeight={400} sx={{color: "black.light"}}>{data?.gig?.concepts} concepts included</Typography>
+                          <Typography variant="body2" fontWeight={400} sx={{color: "black.light"}}>{gig?.data?.concepts} concepts included</Typography>
                         </ListItemText>
                       </ListItem>
-                    {data?.gig?.options.map((option) => {
+                    {gig?.data?.options.map((option) => {
                       
                       if(option.status === "true") {
                         console.log(option.name)
@@ -730,8 +788,8 @@ const Gig = () => {
           </Link>
         </Typography>
         <br />
-        <Carousel responsive={responsive2}>
-          {cards.map(() => (
+        {myGigs.data && <Carousel responsive={responsive2}>
+          {myGigs?.data.map((gig) => (
             <Card sx={{ margin: "0.2rem 1rem" }}>
               <CardMedia
                 component="img"
@@ -755,8 +813,8 @@ const Gig = () => {
                       sx={{ width: "2rem", height: "2rem" }}
                       src={jason}
                     />
-                    <Typography variant="body2" fontWeight={600}>
-                      Sulaiman
+                    <Typography variant="body2" sx={{textTransform: "capitalize"}} fontWeight={600}>
+                      {gig?.user?.name} {gig?.user?.lastname}
                     </Typography>
                   </Stack>
                   <Typography
@@ -779,7 +837,7 @@ const Gig = () => {
                   color="#464646"
                   gutterBottom
                 >
-                  I will design modern minimalist luxury business logo design
+                  {gig?.title}
                 </Typography>
                 <Stack
                   direction="row"
@@ -794,17 +852,17 @@ const Gig = () => {
                   >
                     <StarRateRounded />
                     <Typography variant="body2" fontWeight={600}>
-                      4.3
+                    {gig?.ratingsAverage}
                     </Typography>
                   </Stack>
                   <Typography variant="body1" fontWeight={600}>
-                    Price $20
+                    Price ${gig?.price}
                   </Typography>
                 </Stack>
               </CardContent>
             </Card>
           ))}
-        </Carousel>
+        </Carousel>}
       </Container>
     </Box>
   );

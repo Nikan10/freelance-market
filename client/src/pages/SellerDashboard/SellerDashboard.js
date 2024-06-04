@@ -38,11 +38,13 @@ import { useSelector } from "react-redux";
 import dawid from "../../assets/images/categories/dawid-zawila--G3rw6Y02D0-unsplash.jpg";
 import { useQuery } from "@tanstack/react-query";
 import request from "../../utils/request";
+import Cookies from "js-cookie";
 
 const cards = [1, 2, 3, 4, 5, 6];
 
 const SellerDashboard = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
+  const token = Cookies.get('token');
   const value = "salam";
   let orders;
 
@@ -65,8 +67,6 @@ const SellerDashboard = () => {
     },
   };
 
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzMzOTM5ZDkxM2IyMDk0NGUyYzliYyIsImlhdCI6MTcxNDYzMzAxN30.zryExicO4GfxJXWyO4S4buwkN8eeRIsN8rFTsTZdTgc";
   const { isLoading, error, data } = useQuery({
     queryKey: ["orders"],
     queryFn: () => {

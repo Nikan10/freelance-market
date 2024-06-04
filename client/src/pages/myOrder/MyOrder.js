@@ -31,16 +31,16 @@ import request from "../../utils/request";
 import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { LoadingButton } from "@mui/lab";
+import Cookies from "js-cookie";
 
 const MyOrder = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
+  const token = Cookies.get('token');
   const { orderId } = useParams();
   const [submitDelivery, setSubmitDelivery] = useState(false);
   let isSeller = false;
   let coverImage = "";
 
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzMzOTM5ZDkxM2IyMDk0NGUyYzliYyIsImlhdCI6MTcxNTAwODc4OH0.QqpoZl5Elb3ewmZSJLPIxqpaB7G7oFVKNstBf-piuOc";
   const { isLoading, error, data } = useQuery({
     queryKey: ["order"],
     queryFn: () => {

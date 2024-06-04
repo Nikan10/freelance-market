@@ -3,12 +3,13 @@ import { Autocomplete, Avatar, Button, ButtonGroup, Grid, Input, TextField, Typo
 import { Box, Container, Stack } from '@mui/system'
 import React, { useRef, useState } from 'react'
 
-const PublishProfile = ({ onNext, onPrev }) => {
+const PublishProfile = ({ onNext, onPrev, showSubmitButton }) => {
   const [photo, setPhoto] = useState('')
   const [country, setCountry] = useState('')
   const [city, setCity] = useState('')
   const [postalCode, setPostalCode] = useState('')
   const [phone, setPhone] = useState('')
+  const [submit, setSubmit] = useState(false)
 
   const photoInputRef = useRef(null);
 
@@ -22,10 +23,11 @@ const PublishProfile = ({ onNext, onPrev }) => {
   }
 
   const returnData = () => {
-
+    showSubmitButton(true)
     onNext({photo, country, city, postalCode, phone})
+    setSubmit(true)
   }
-  console.log({photo, country, city, postalCode, phone})
+  
   return (
     <Box paddingTop="8rem" sx={{ height: "100vh" }}>
       <Container maxWidth="md">
@@ -43,7 +45,7 @@ const PublishProfile = ({ onNext, onPrev }) => {
                 <Stack alignItems="center">
                     <Avatar sx={{width: "8rem", height: "8rem"}} />
                     <br />
-                    <input type='file' ref={photoInputRef} style={{display: "none"}} onChange={handlePhotoChange} />
+                    <input type='file' accept='image' ref={photoInputRef} style={{display: "none"}} onChange={handlePhotoChange} />
                     <Button size='small' onClick={handleClick} variant='outlined' startIcon={<Add />}>Upload Photo</Button>
                 </Stack>
             </Grid>
@@ -86,12 +88,32 @@ const PublishProfile = ({ onNext, onPrev }) => {
         }}
       >
         <Container>
-          <Stack direction="row" justifyContent="space-between">
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
             <Button variant="outlined" onClick={onPrev}>Back</Button>
-            <Button variant="contained" onClick={returnData}>
-              Next
-              <NavigateNext />
-            </Button>
+            <Box>
+              {!submit ? <Button variant="contained" onClick={returnData}>
+                Next
+                <NavigateNext />
+              </Button>
+              :
+              <Stack direction="row" spacing={1}>
+                <Button variant="contained" onClick={returnData} disabled>
+                  Next
+                  <NavigateNext />
+                </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    marginTop: "8rem",
+                    backgroundColor: "secondary.main",
+                    "&:hover": { backgroundColor: "secondary.light" },
+                  }}
+                >
+                  Submit
+                </Button>
+              </Stack>}
+            </Box>
           </Stack>
         </Container>
       </Box>

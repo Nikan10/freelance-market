@@ -36,7 +36,7 @@ const Gallery = ({ onNext, onPrev }) => {
               <Typography sx={{fontWeight: 500, color: "#505050"}} variant='body2'>Drag image here or</Typography>
               <Typography sx={{fontWeight: 500, color: "primary.dark"}} variant='body2'>browse</Typography>
             </div>
-            <input accept="image" id="upload-images" onChange={handleCoverImageChanges} multiple type='file' />
+            <input accept="image" id="upload-images" onChange={handleCoverImageChanges} type='file' />
           </div>
         </Stack>
         <br/> <br/>

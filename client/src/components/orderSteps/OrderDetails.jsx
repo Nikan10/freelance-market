@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  CircularProgress,
   Grid,
   Link,
   Rating,
@@ -20,9 +21,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import request from "../../utils/request";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 const OrderDetails = ({ onNext, setOrderId }) => {
   const currentUser = useSelector((state) => state.user.currentUser);
+  const token = Cookies.get('token');
   const { gigId } = useParams();
   const navigate = useNavigate();
   let coverImage = "";
@@ -30,9 +33,11 @@ const OrderDetails = ({ onNext, setOrderId }) => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["gig"],
     queryFn: () => {
-      return request.get(`/users/${currentUser?._id}/gigs/${gigId}`).then((res) => {
-        return res.data;
-      });
+      return request
+        .get(`/users/${currentUser?._id}/gigs/${gigId}`)
+        .then((res) => {
+          return res.data;
+        });
     },
   });
 
@@ -43,7 +48,6 @@ const OrderDetails = ({ onNext, setOrderId }) => {
     coverImage = base64String;
   }
 
-  const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzMzOTM5ZDkxM2IyMDk0NGUyYzliYyIsImlhdCI6MTcxNDYzMzAxN30.zryExicO4GfxJXWyO4S4buwkN8eeRIsN8rFTsTZdTgc";
   const handleCreateOrder = async () => {
     const response = await request.post(
       `/users/${data?.gig?.user?._id}/gigs/${gigId}/orders/create`,
@@ -55,71 +59,86 @@ const OrderDetails = ({ onNext, setOrderId }) => {
       }
     );
     if (response) {
-      setOrderId(response.data.newOrder._id);
-
+      console.log(response?.data)
+      onNext(response?.data);
     }
-    onNext()
     // if (response) {
     //   navigate(`/users/${userId}/orders/${response.data.newOrder._id}`);
     // }
   };
 
-
   return (
     <Box>
-      <Grid spacing={8} container>
-        <Grid md={8} item>
-          <Box>
-            <Card
-              sx={{
-                display: "flex",
-                height: "8rem",
-                boxShadow: "none",
-                borderRadius: 0,
-              }}
-            >
-              <CardMedia
-                component="img"
-                image={`data:image/jpeg;base64,${coverImage}`}
-                alt="Image title"
-                sx={{borderRadius: "6px"}}
-              />
-              <CardContent sx={{ width: "240%" }}>
-                <Stack direction="row" spacing={4}>
-                  <Stack flex={1}>
-                    <Typography fontWeight={500}>{data?.gig?.title}</Typography>
-                    <Stack direction="row" spacing={1}>
-                      <Rating
-                        size="small"
-                        value={data?.gig?.ratingsAverage}
-                        readOnly
-                      />
-                      <Typography variant="caption" fontWeight={700}>
-                        {data?.gig?.ratingsAverage}
+      {isLoading ? (
+        <Box
+          sx={{
+            height: "100vh",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        "Something went wrong"
+      ) : (
+        <Grid spacing={8} container>
+          <Grid md={8} item>
+            <Box>
+              <Card
+                sx={{
+                  display: "flex",
+                  height: "8rem",
+                  boxShadow: "none",
+                  borderRadius: 0,
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  image={`data:image/jpeg;base64,${coverImage}`}
+                  alt="Image title"
+                  sx={{ borderRadius: "6px" }}
+                />
+                <CardContent sx={{ width: "240%" }}>
+                  <Stack direction="row" spacing={4}>
+                    <Stack flex={1}>
+                      <Typography fontWeight={500}>
+                        {data?.gig?.title}
+                      </Typography>
+                      <Stack direction="row" spacing={1}>
+                        <Rating
+                          size="small"
+                          value={data?.gig?.ratingsAverage}
+                          readOnly
+                        />
+                        <Typography variant="caption" fontWeight={700}>
+                          {data?.gig?.ratingsAverage}
+                        </Typography>
+                      </Stack>
+                      <br />
+                      <Link>View what included</Link>
+                    </Stack>
+                    <Stack direction="row" spacing={2} alignItems="flex-start">
+                      <Typography
+                        variant="body2"
+                        fontWeight={500}
+                        color="black.light"
+                      >
+                        Quantity {data?.gig?.concepts}
+                      </Typography>
+                      <Typography variant="body2" fontWeight={500}>
+                        ${data?.gig?.price}
                       </Typography>
                     </Stack>
-                    <br />
-                    <Link>View what included</Link>
                   </Stack>
-                  <Stack direction="row" spacing={2} alignItems="flex-start">
-                    <Typography
-                      variant="body2"
-                      fontWeight={500}
-                      color="black.light"
-                    >
-                      Quantity {data?.gig?.concepts}
-                    </Typography>
-                    <Typography variant="body2" fontWeight={500}>
-                      ${data?.gig?.price}
-                    </Typography>
-                  </Stack>
-                </Stack>
-              </CardContent>
-            </Card>
-          </Box>
-          <br />
-          <br />
-          {/* <Box>
+                </CardContent>
+              </Card>
+            </Box>
+            <br />
+            <br />
+            {/* <Box>
             <Typography variant="h6" fontWeight={500}>
               Upgrade your order with extras
             </Typography>
@@ -172,69 +191,70 @@ const OrderDetails = ({ onNext, setOrderId }) => {
               </Stack>
             </Stack>
           </Box> */}
-        </Grid>
-        <Grid md={4} item>
-          <Stack
-            spacing={3}
-            sx={{
-              border: "1px solid",
-              borderColor: "light.main",
-              padding: "1rem",
-              borderRadius: "4px",
-            }}
-          >
-            <Stack spacing={2}>
-              <Typography fontWeight={500}>Price summery</Typography>
-              <Stack direction="row" justifyContent="space-between">
-                <Typography variant="body2" color="black.light">
-                  Subtotal
-                </Typography>
-                <Typography color="gray" variant="body2">
-                  ${data?.gig?.price}
-                </Typography>
-              </Stack>
-              <Stack direction="row" justifyContent="space-between">
-                <Typography variant="body2" color="black.light">
-                  Service fee
-                </Typography>
-                <Typography color="gray" variant="body2">
-                  ${data?.gig?.price/100 * 10}
-                </Typography>
-              </Stack>
-            </Stack>
-            <Stack spacing={2}>
-              <Stack direction="row" justifyContent="space-between">
-                <Typography
-                  variant="body2"
-                  fontWeight={500}
-                  color="black.light"
-                >
-                  Total
-                </Typography>
-                <Typography fontWeight={500} color="gray" variant="body2">
-                  ${data?.gig?.price - (data?.gig?.price/100 * 10)}
-                </Typography>
-              </Stack>
-              <Stack direction="row" justifyContent="space-between">
-                <Typography variant="body2" color="black.light">
-                  Delivery Time
-                </Typography>
-                <Typography color="gray" variant="body2">
-                  1 day
-                </Typography>
-              </Stack>
-            </Stack>
-            <Button
-              variant="contained"
-              sx={{ color: "#fff", textTransform: "capitalize" }}
-              fullWidth
-              onClick={handleCreateOrder}
+          </Grid>
+          <Grid md={4} item>
+            <Stack
+              spacing={3}
+              sx={{
+                border: "1px solid",
+                borderColor: "light.main",
+                padding: "1rem",
+                borderRadius: "4px",
+              }}
             >
-              Continue to Checkout
-            </Button>
-          </Stack>
+              <Stack spacing={2}>
+                <Typography fontWeight={500}>Price summery</Typography>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography variant="body2" color="black.light">
+                    Subtotal
+                  </Typography>
+                  <Typography color="gray" variant="body2">
+                    ${data?.gig?.price}
+                  </Typography>
+                </Stack>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography variant="body2" color="black.light">
+                    Service fee
+                  </Typography>
+                  <Typography color="gray" variant="body2">
+                    ${(data?.gig?.price / 100) * 10}
+                  </Typography>
+                </Stack>
+              </Stack>
+              <Stack spacing={2}>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography
+                    variant="body2"
+                    fontWeight={500}
+                    color="black.light"
+                  >
+                    Total
+                  </Typography>
+                  <Typography fontWeight={500} color="gray" variant="body2">
+                    ${data?.gig?.price - (data?.gig?.price / 100) * 10}
+                  </Typography>
+                </Stack>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography variant="body2" color="black.light">
+                    Delivery Time
+                  </Typography>
+                  <Typography color="gray" variant="body2">
+                    1 day
+                  </Typography>
+                </Stack>
+              </Stack>
+              <Button
+                variant="contained"
+                sx={{ color: "#fff", textTransform: "capitalize" }}
+                fullWidth
+                onClick={handleCreateOrder}
+              >
+                Continue to Checkout
+              </Button>
+            </Stack>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Box>
   );
 };

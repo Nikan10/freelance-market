@@ -12,12 +12,14 @@ import { Container, Typography, Stepper, StepLabel, Step } from '@mui/material'
 import { useQuery } from "@tanstack/react-query"
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from "react-redux"
+import Cookies from "js-cookie"
 
 
 const things = ['Overview', 'Pricing', 'Gallery', 'Description', 'Publish']
 
 const GigForm = () => {
     const currentUser = useSelector((state) => state.user.currentUser)
+    const token = Cookies.get('token');
     const [step, setStep] = useState(1)
     const [formData, setFormData] = useState({})
 
@@ -41,49 +43,19 @@ const GigForm = () => {
         setStep(step - 1)
     }
 
-    // const appendFormData = (dataCollection, data, parentKey = '') => {
-    //   if(data && typeof data == 'object' && !(data instanceof File)) {
-    //     Object.keys(data).forEach((key) => {
-    //       console.log(key)
-    //       appendFormData(
-    //         dataCollection,
-    //         data[key],
-    //         parentKey ? `${parentKey}.${key}` : key
-    //       )
-    //     })
-    //   } else {
-    //     dataCollection.append(parentKey, data)
-    //   }
-    // }
-
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzMzOTM5ZDkxM2IyMDk0NGUyYzliYyIsImlhdCI6MTcxNTY2MjY0NH0.huiQl2QNEKCbduQfQjIUig-mKcrztfPtUoPJxavhjao"
     const handleSubmit = async (e) => {
       e.preventDefault()
 
       const dataCollection = new FormData()
-
-      // Object.entries(formData).forEach(([key, value]) => {
-      //   if(key !== 'images' || key !== 'coverImage') {
-      //     if(typeof value === 'object') {
-      //       Object.entries(value).forEach(([subKey, subValue]) => {
-      //         dataCollection.append(subKey, subValue)
-      //       })
-      //     } else {
-      //       dataCollection.append(key, value)
-      //     }
-      //   }
-      // })
-
       
       dataCollection.append('data', JSON.stringify(formData))
-      // appendFormData(dataCollection, formData)
 
       dataCollection.append('coverImage', formData.coverImage)
 
       formData.images.map((image) => (
         dataCollection.append('images', image)
       ))
-      console.log(dataCollection)
+      
       const response = await request.post(`users/${currentUser._id}/gigs/create`, dataCollection, {
         headers: {
           "Content-Type": 'multipart/form-data',
