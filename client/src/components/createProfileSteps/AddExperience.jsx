@@ -63,7 +63,7 @@ const AddExperience = ({ onNext, onPrev }) => {
   };
 
   const returnData = () => {
-    onNext(experience);
+    onNext({ experience });
   };
   console.log(experience);
   return (

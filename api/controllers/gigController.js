@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Gig from "../models/GigModel.js";
 import fs from "fs";
 
@@ -63,17 +64,14 @@ export const deleteGig = async (req, res, next) => {
 export const getGig = async (req, res, next) => {
   const gig = await Gig.findById(req.params.gigId).populate("user");
   if (!gig) return next(new Error("Gig not found!"));
-  res.status(200).json({
-    status: "success",
-    gig,
-  });
+  res.status(200).json(gig);
 };
 export const getGigs = async (req, res, next) => {
   const query = req.query;
-
+  console.log('user id', req.userId)
   const filters = {
-    ...(req.params.userId && { user: req.params.userId }),
-    ...(query.category && { category: query.category }),
+    ...(req.userId && { user: new mongoose.Types.ObjectId(req.userId) }),
+    ...(query.subCategory && { subCategory: query.subCategory }),
     ...(query.delivery && { deliveryTime: query.delivery }),
     ...((query.min || query.max) && {
       price: {
@@ -84,9 +82,11 @@ export const getGigs = async (req, res, next) => {
     ...(query.search && { title: { $regex: query.search, $options: "i" } }),
   };
   try {
+    
     const gigs = await Gig.find(filters).populate("user").populate("category");
-    res.status(200).send(gigs);
+
+    res.status(200).json(gigs);
   } catch (error) {
-    return console.log(error);
+    return next(new Error(error))
   }
 };

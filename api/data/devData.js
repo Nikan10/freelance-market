@@ -1,3 +1,7 @@
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad sed eos officiis iste. Consequatur amet esse repudiandae quaerat? Commodi repudiandae eligendi exercitationem doloribus esse odit necessitatibus praesentium sint voluptate dignissimos.
+
+
+
 const gig = {
   title: "Create modern minimalist logo for your business",
   description:

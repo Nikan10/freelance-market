@@ -2,6 +2,8 @@ import {
   Autocomplete,
   Button,
   Container,
+  FormControl,
+  FormControlLabel,
   Grid,
   Input,
   InputAdornment,
@@ -24,8 +26,8 @@ const Pricing = ({ onNext, onPrev, data, formData }) => {
   const [concepts, setConcepts] = useState(null);
   const [totalPrice, setTotalPrice] = useState(null);
   const [optionsList, setOptionsList] = useState([])
-  let options = [];
-  // let optionsList = [];
+  // let optionsList;
+  let options;
 
   const category = data.categories.filter(
     (cat) => cat._id === formData.category
@@ -33,22 +35,26 @@ const Pricing = ({ onNext, onPrev, data, formData }) => {
   const subCategory = category.subCategories.filter(
     (subCat) => subCat._id === formData.subCategory
   )[0];
-  options = subCategory.options;
+    
+  if(!options) {
+    options = subCategory.options.map((option) => {
+    return {name: option, status: false}
+    })
+  }
 
   const handleOptionChange = (event) => {
-    setOptionsList(options.map((option) => {
-      if(option === event.target.value) {
-        return option = {name: option, status: true}
-      } else {
-        return {name: option}
-      }
-    }))
-    console.log(optionsList)
+    if(event.target.checked) {
+      options.map((option) => {
+        if(event.target.value === option.name) {
+          option.status = true
+          setOptionsList([...optionsList, option])
+        }
+      })
+    }
   }
-  console.log(optionsList)
+
   const returnData = (e) => {
     e.preventDefault();
-    console.log(optionsList)
     if (
       !customeTitle ||
       !customeDescription ||
@@ -150,7 +156,7 @@ const Pricing = ({ onNext, onPrev, data, formData }) => {
       </Stack>
       <br />
       <Stack maxWidth="md">
-        <Typography variant="h6" fontWeight={500}>
+        <Typography variant="h6" fontWeight={500} gutterBottom>
           Sevice Tire Options
         </Typography>
         <Grid columnSpacing={20} rowSpacing={2} container>
@@ -159,14 +165,18 @@ const Pricing = ({ onNext, onPrev, data, formData }) => {
               <Grid md={6} item>
                 <Stack justifyContent="space-between" direction="row">
                   <Typography color="gray" variant="body2" fontWeight={500}>
-                    {option}
+                    {option.name}
                   </Typography>
-                  <Input
-                    name={option}
-                    sx={{ width: "1rem" }}
-                    value={option}
-                    type="checkbox"
-                    onChange={handleOptionChange}
+                  <FormControlLabel
+                    control={
+                      <Input
+                        type="checkbox"
+                        onChange={handleOptionChange}
+                        value={option.name}
+                        sx={{ width: "1rem" }}
+                        name="checked"
+                      />
+                    }
                   />
                 </Stack>
               </Grid>

@@ -11,8 +11,7 @@ const sendResponse = (user, statusCode, res) => {
 
     res.cookie('token', token, {
         expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRY_DATE * 24 * 60 * 60 * 1000),
-        secure: true,
-        httpOnly: true
+
     })
 
     res.status(statusCode).json({
@@ -29,7 +28,7 @@ export const signup = async (req, res, next) => {
         email: req.body.email,
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
-        country: req.body.country
+        isSeller: req.body.isSeller
     }
 
     try{

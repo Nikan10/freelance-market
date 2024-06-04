@@ -3,21 +3,21 @@ import mongoose from "mongoose";
 const gigSchema = mongoose.Schema({
     title: {
         type: String,
-        // required: true,
+        required: true,
         maxLength: 64
     },
     customeTitle: {
         type: String,
-        // required: true,
+        required: true,
         maxLength: 64
     },
     customeDescription: {
         type: String,
-        // required: true,
+        required: true,
     },
     summery: {
         type: String,
-        // required: true,
+        required: true,
     },
     reviews: {
         type: [String],
@@ -25,7 +25,7 @@ const gigSchema = mongoose.Schema({
     ratingsAverage: {
         type: Number,
         max: 5,
-        default: 0
+        default: 5
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
@@ -52,7 +52,7 @@ const gigSchema = mongoose.Schema({
     }],
     price: {
         type: Number,
-        // required: true,
+        required: true,
         min: 5
     },
     coverImage: {
@@ -69,9 +69,6 @@ const gigSchema = mongoose.Schema({
             contentType: String
         }
     }],
-    document: {
-        type: String
-    },
     user: {
         type: mongoose.Schema.Types.Object,
         ref: 'User',
@@ -83,7 +80,7 @@ const gigSchema = mongoose.Schema({
     },
     concepts: {
         type: Number,
-        // required: true,
+        required: true,
     },
     faqs: [{
         question: String,
@@ -94,6 +91,10 @@ const gigSchema = mongoose.Schema({
         required: true
     },
     sales: {
+        type: Number,
+        default: 0
+    },
+    status : {
         type: Number,
         default: 0
     }

@@ -5,7 +5,7 @@ import User from '../models/UserModel.js'
 const protect = async (req, res, next) => {
     let token
     if(req.headers.authorization) token = req.headers.authorization;
-    
+    // console.log(req.body)
     if(!token) {
         return next(new Error('You are not logged in'))
     }

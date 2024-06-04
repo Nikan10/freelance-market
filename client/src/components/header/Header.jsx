@@ -10,11 +10,14 @@ import jason from '../../assets/images/categories/jason-blackeye-XbjM0as0nao-uns
 import request from '../../utils/request'
 import { useNavigate } from 'react-router-dom'
 import { Container } from '@mui/system'
+import { useQuery } from '@tanstack/react-query'
+import Cookies from 'js-cookie'
 
 const Header = (props) => {
   const isLoggedIn = useSelector( state => state.user.isLoggedIn )
   const currentUser = useSelector( state => state.user.currentUser )
-  const {setShowSignin, setShowSidebar} = props
+  const {setShowSignin, setShowSidebar} = props;
+  const token = Cookies.get('token')
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -26,6 +29,34 @@ const Header = (props) => {
   const avatarOpen = Boolean(avatarAnchorEl);
   const massagesOpen = Boolean(messagesAnchorEl);
   const notificationsOpen = Boolean(NotificationsAnchorEl);
+
+  // const user = useQuery({
+  //   queryKey: ["user"],
+  //   queryFn: () => {
+  //     return request
+  //       .get(
+  //         `/users/${currentUser?._id}`,
+  //         {
+  //           headers: {
+  //             authorization: token,
+  //           },
+  //         }
+  //       )
+  //       .then((res) => {
+  //         return res.data;
+  //       });
+  //   },
+  // });
+
+  // let userPhoto = '';
+  // if(user.data) {
+  //   userPhoto = btoa(
+  //     String.fromCharCode(
+  //       ...new Uint8Array(user?.data?.profile?.photo?.img.data.data)
+  //     )
+  //   );
+  // }
+  // console.log(user?.data)
 
   const handleAvatarClick = (event) => {
     setAvatarAnchorEl(event.target);
@@ -63,19 +94,31 @@ const Header = (props) => {
       <Container maxWidth="xl">
       {isLoggedIn ?
         <Toolbar>
-            <Stack sx={{flexGrow: 1, alignItems: "center", height: "100%"}} spacing={1} direction="row">
+            {currentUser?.isSeller ? (<Stack sx={{flexGrow: 1, alignItems: "center", height: "100%"}} spacing={1} direction="row">
               {/* <IconButton onClick={() => setShowSidebar(true)}>
                   <MenuOutlined />
               </IconButton> */}
               <Link href="/"><img src={maherBrand} style={{marginRight: "1rem"}} height="30" alt='' /></Link>
               <Button sx={{textTransform: "capitalize", color: "black.main", marginLeft: "8rem"}} href="/sellerDashboard">Dashboard</Button>
               <Button sx={{textTransform: "capitalize", color: "black.main"}} href={`users/${currentUser._id}/manageOrders`}>Orders</Button>
-              <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/myGigs">Gigs</Button>
               <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/jobs">Jobs</Button>
+              <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/chat">Messages</Button>
               <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/earnings">Earnings</Button>
               <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/more">More</Button>
-            </Stack>
-            
+            </Stack>)
+            :
+            (<Stack sx={{flexGrow: 1, alignItems: "center", height: "100%"}} spacing={1} direction="row">
+              {/* <IconButton onClick={() => setShowSidebar(true)}>
+                  <MenuOutlined />
+              </IconButton> */}
+              <Link href="/"><img src={maherBrand} style={{marginRight: "1rem"}} height="30" alt='' /></Link>
+              <Button sx={{textTransform: "capitalize", color: "black.main"}} href={`users/${currentUser?._id}/manageOrders`}>Orders</Button>
+              <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/myCommunity">Community</Button>
+              <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/chat">Messages</Button>
+              <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/earnings">Earnings</Button>
+              <Button sx={{textTransform: "capitalize", color: "black.main"}} href="/more">More</Button>
+            </Stack>)
+            }
               <Stack direction="row" spacing={1} sx={{display: {xs: "none", md: "flex"}}}>
                 <Button 
                   id='notifications-button' 
@@ -160,19 +203,32 @@ const Header = (props) => {
                   aria-haspopup='true'
                   aria-expanded={ avatarOpen ? 'true' : undefined}
                 />
-                  <Menu id="user-menu" anchorEl={avatarAnchorEl} open={avatarOpen} MenuListProps={{'aria-labelledby': 'user-button'}} onClose={handleAvatarClose}>
-                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/createGig" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>Create gig</Link></MenuItem>
-                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/myProfile" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>My profile</Link></MenuItem>
-                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/gigs" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>Gigs</Link></MenuItem>
+                  {currentUser?.isSeller ? (<Menu id="user-menu" anchorEl={avatarAnchorEl} open={avatarOpen} MenuListProps={{'aria-labelledby': 'user-button'}} onClose={handleAvatarClose}>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/createGig" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>Create Gig</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/job/create" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>Create Job</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href={`/users/${currentUser._id}/community/create`} sx={{textDecoration: "none", color: "black.main", width: "100%"}}>Create Community</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/manageJobs" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>My Jobs</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/myProposals" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>My Proposals</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/myProfile" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>Profile</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href={`/users/${currentUser._id}/manageGigs`} sx={{textDecoration: "none", color: "black.main", width: "100%"}}>My Gigs</Link></MenuItem>
                     <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link sx={{textDecoration: "none", width: "100%"}} onClick={logoutUser}>Log out</Link></MenuItem>
-                  </Menu>
+                  </Menu>)
+                  :
+                  (<Menu id="user-menu" anchorEl={avatarAnchorEl} open={avatarOpen} MenuListProps={{'aria-labelledby': 'user-button'}} onClose={handleAvatarClose}>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/job/create" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>Create Job</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href={`/users/${currentUser._id}/community/create`} sx={{textDecoration: "none", color: "black.main", width: "100%"}}>Create Community</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/myProfile" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>Profile</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link href="/manageJobs" sx={{textDecoration: "none", color: "black.main", width: "100%"}}>My Jobs</Link></MenuItem>
+                    <MenuItem onClick={handleAvatarClose} sx={{width: "12rem", fontSize: "0.8rem"}}><Link sx={{textDecoration: "none", width: "100%"}} onClick={logoutUser}>Log out</Link></MenuItem>
+                  </Menu>)
+                  }
               </Stack>
               
         </Toolbar>
         :
         <Toolbar>
             <Stack direction="row" sx={{flex: 1}}>
-              <Link to="/"><img src={maherBrand} style={{marginRight: "1rem"}} height="30" alt='' /></Link>
+              <Link href="/"><img src={maherBrand} style={{marginRight: "1rem"}} height="30" alt='' /></Link>
             </Stack>
             <Stack direction="row" spacing={1} sx={{display: {xs: "none", md: "flex"}}}>
                 <Button sx={{textTransform: "capitalize", color: "gray"}} href="/">Home</Button>

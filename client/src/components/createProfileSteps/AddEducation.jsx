@@ -47,36 +47,9 @@ const AddEducation = ({ onNext, onPrev }) => {
   };
 
   const returnData = () => {
-    onNext(education);
+    onNext({ education});
   };
 
-
-  // const [AddEducation, setAddEducation] = useState(false);
-  // const [educationAdded, setEducationAdded] = useState(false);
-
-  // const [school, setSchool] = useState("");
-  // const [degree, setDegree] = useState("");
-  // const [field, setField] = useState("");
-  // const [from, setFrom] = useState('')
-  // const [to, setTo] = useState('')
-  // const [description, setDescription] = useState("");
-
-  // const handleAddEducation = () => {
-  //   setEducationAdded(true);
-  //   setAddEducation(false);
-  // };
-
-  // const returnData = () => {
-  //   const education = {
-  //     school,
-  //     degree,
-  //     field,
-  //     from,
-  //     to,
-  //     description,
-  //   };
-  //   onNext({education});
-  // };
   return (
 
     <Box sx={{ height: "100vh", paddingTop: "8rem" }}>
@@ -353,104 +326,6 @@ const AddEducation = ({ onNext, onPrev }) => {
         </Container>
       </Box>
     </Box>
-
-    
-
-
-    // <Box paddingTop="8rem" sx={{ height: "100vh" }}>
-      
-
-      
-    //   <Container maxWidth="sm">
-    //   {educationAdded ? (
-    //         <Box
-    //           sx={{
-    //             border: "1px solid",
-    //             padding: "1rem",
-    //             borderColor: "light.dark",
-    //             borderRadius: "6px",
-    //           }}
-    //         >
-    //           <Stack direction="row" alignItems="center" spacing={4}>
-    //             <WorkHistoryOutlined color="primary" />
-    //             <Box>
-    //               <Typography fontWeight={500} variant="h6">
-    //                 {field}
-    //               </Typography>
-    //               <Typography
-    //                 variant="body2"
-    //                 fontWeight={500}
-    //                 color="black.light"
-    //               >
-    //                 {degree}
-    //               </Typography>
-    //               <Typography
-    //                 variant="body2"
-    //                 fontWeight={400}
-    //                 color="black.light"
-    //               >
-    //                 {from} - {to}
-    //               </Typography>
-    //             </Box>
-    //           </Stack>
-    //         </Box>
-    //       ) : (
-    //     <Stack
-    //       justifyContent="space-between"
-    //       sx={{
-    //         border: "2px dashed",
-    //         padding: "1rem",
-    //         borderColor: "light.dark",
-    //         backgroundColor: "light.light",
-    //         borderRadius: "6px",
-    //         height: "14rem",
-    //         width: "18rem",
-    //       }}
-    //     >
-    //       <Box></Box>
-    //       <Box>
-    //         <Typography
-    //           variant="h6"
-    //           color="black.light"
-    //           fontWeight={400}
-    //           gutterBottom
-    //         >
-    //           Add your education
-    //         </Typography>
-    //         <Button
-    //           variant="contained"
-    //           onClick={() => setAddEducation(true)}
-    //           sx={{ color: "#fff", borderRadius: "25px" }}
-    //         >
-    //           <Add />
-    //         </Button>
-    //       </Box>
-    //     </Stack>
-    //     )}
-    //   </Container>
-    //   <Box
-    //     sx={{
-    //       bottom: 0,
-    //       position: "fixed",
-    //       width: "100%",
-    //       backgroundColor: "#fff",
-    //       zIndex: 100,
-    //       padding: "1rem 0",
-    //       borderTop: "2px solid",
-    //       borderTopColor: "primary.main",
-    //     }}
-    //   >
-    //     <Container>
-    //       <Stack direction="row" justifyContent="space-between">
-    //         <Button variant="outlined" onClick={onPrev}>Back</Button>
-    //         <Button variant="contained" onClick={returnData}>
-    //           Next
-    //           <NavigateNext />
-    //         </Button>
-    //       </Stack>
-    //     </Container>
-    //   </Box>
-    // </Box>
   );
 };
 

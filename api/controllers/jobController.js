@@ -1,5 +1,4 @@
-import Job from "../models/JobModel"
-
+import Job from "../models/JobModel.js"
 
 
 
@@ -10,12 +9,8 @@ export const createJob = async (req, res, next) => {
         description: req.body.description,
         budget: req.body.budget,
         sellerLevel: req.body.sellerLevel,
-        deliveryTime: req.body.deliveryTime,
-        status: req.body.status,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
-        proposal: req.body.proposal,
-        buyer: req.body.buyer,
+        deliveryTime: req.body.delivery,
+        buyer: req.user._id,
         category: req.body.category,
         subCategory: req.body.subCategory
     }
@@ -26,8 +21,22 @@ export const createJob = async (req, res, next) => {
 }
 
 export const getJobs = async (req, res, next) => {
+    console.log(req.userId)
+    const filters = () => {
+        return {
+            ...(req.query.status && {status: req.query.status}),
+            ...(req.userId && {buyer: req.userId})
+        }
+    }
 
-    const jobs = await Job.find();
+    const jobs = await Job.find(filters()).populate('buyer')
 
-    res.status(200).send(jobs)
+    res.status(200).json(jobs)
+}
+
+export const getJob = async (req, res, next) => {
+
+    const job = await Job.findById(req.params.jobId).populate('buyer').populate('proposals')
+
+    res.status(200).json(job)
 }

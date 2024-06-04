@@ -11,6 +11,8 @@ import authRouter from './routes/authRouter.js'
 import userRouter from './routes/userRouter.js'
 import categoryRouter from './routes/categoryRouter.js'
 import subCategoryRouter from './routes/subCategoryRouter.js'
+import chatRouter from './routes/messaging/chatRouter.js'
+import messageRouter from './routes/messaging/messageRouter.js'
 
 // Configurations
 dotenv.config();
@@ -35,6 +37,8 @@ app.use('/', authRouter);
 app.use('/users', userRouter);
 app.use('/categories', categoryRouter);
 app.use('/subCategories', subCategoryRouter);
+app.use('/chat', chatRouter);
+app.use('/message', messageRouter);
 
 const PORT = process.env.PORT || 8200;
 const DATABASE_LOCAL = process.env.DATABASE_LOCAL;
